@@ -32,6 +32,17 @@ Useful Gradle tasks and flags:
 Note that most tasks that are not specific to a single project can be run with `name:` prefix, where the `name` should be replaced with the ID of a specific project.
 For example, `core:clean` removes `build` folder only from the `core` project.
 
+## Steps to Run
+
+- Download the project zip file on your system
+- Extract the zip file
+- Open IntelliJ software and Open a New Project from Existing Source
+- Select the extracted zip file's directory and open
+- Import as an existing Gradle Project
+- Now, set up JDK project
+- Go to AngryBirds\lwjgl3\src\main\java\com\MK_20\game\lwjgl3\Lwjgl3Launcher.java and Run
+- Navigate across the screens using the relevant buttons appearing on screen
+
 ## Sources
 
 - Referred to Brent Aureli Codes for general code tutorials
