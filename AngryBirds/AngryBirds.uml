@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>C:/Users/Mayank/OneDrive/Desktop/MK/AngryBirds</OriginalElement>
+  <nodes>
+    <node x="468.5" y="1696.5">com.MK_20.game.lwjgl3.Lwjgl3Launcher</node>
+    <node x="137.5" y="1660.5">nativeimage</node>
+    <node x="2.0" y="361.0">com.MK_20.game.Sprites.Pig</node>
+    <node x="542.5" y="1289.0">com.MK_20.game.lwjgl3.StartupHelper</node>
+    <node x="-73.5" y="1277.0">com.MK_20.game.AngryBirds</node>
+    <node x="-176.5" y="805.0">com.MK_20.game.Screens.PlayScreen</node>
+    <node x="104.0" y="829.0">com.MK_20.game.Screens.Settings</node>
+    <node x="230.0" y="549.0">com.MK_20.game.Screens.PauseScreen</node>
+    <node x="301.0" y="1533.5">com.MK_20.game.Sprites.Wood</node>
+    <node x="174.5" y="1313.5">com.MK_20.game.Tools.LevelCreator</node>
+    <node x="-188.0" y="1637.0">com.MK_20.game.Screens.Start</node>
+    <node x="22.5" y="1521.0">com.MK_20.game.Sprites.Slingshot</node>
+    <node x="316.0" y="1193.5">com.MK_20.game.Sprites.InteractiveTileObject</node>
+    <node x="-22.5" y="-139.5">build</node>
+    <node x="370.5" y="829.0">com.MK_20.game.Screens.HomeScreen</node>
+    <node x="112.0" y="1193.5">com.MK_20.game.Sprites.Bird</node>
+    <node x="510.0" y="549.0">com.MK_20.game.Screens.FailedScreen</node>
+    <node x="654.5" y="829.0">com.MK_20.game.Screens.WonScreen</node>
+    <node x="-182.5" y="100.5">settings</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.MK_20.game.Screens.PlayScreen" target="com.MK_20.game.AngryBirds" relationship="TO_ONE">
+      <point x="0.0" y="140.0" />
+      <point x="-64.0" y="1145.0" />
+      <point x="336.0" y="1145.0" />
+      <point x="336.0" y="1165.0" />
+      <point x="-4.0" y="1165.0" />
+      <point x="0.0" y="-68.0" />
+    </edge>
+    <edge source="com.MK_20.game.AngryBirds" target="com.MK_20.game.Screens.PlayScreen" relationship="TO_ONE">
+      <point x="0.0" y="-68.0" />
+      <point x="-4.0" y="1125.0" />
+      <point x="-64.0" y="1125.0" />
+      <point x="0.0" y="140.0" />
+    </edge>
+    <edge source="com.MK_20.game.Screens.PauseScreen" target="com.MK_20.game.AngryBirds" relationship="TO_ONE">
+      <point x="0.0" y="116.0" />
+      <point x="336.0" y="1165.0" />
+      <point x="-4.0" y="1165.0" />
+      <point x="0.0" y="-68.0" />
+    </edge>
+    <edge source="com.MK_20.game.AngryBirds" target="com.MK_20.game.Screens.PauseScreen" relationship="TO_ONE">
+      <point x="0.0" y="-68.0" />
+      <point x="-4.0" y="1125.0" />
+      <point x="336.0" y="1125.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="com.MK_20.game.Screens.Settings" target="com.MK_20.game.AngryBirds" relationship="TO_ONE">
+      <point x="0.0" y="116.0" />
+      <point x="196.0" y="1145.0" />
+      <point x="336.0" y="1145.0" />
+      <point x="336.0" y="1165.0" />
+      <point x="-4.0" y="1165.0" />
+      <point x="0.0" y="-68.0" />
+    </edge>
+    <edge source="com.MK_20.game.AngryBirds" target="com.MK_20.game.Screens.WonScreen" relationship="TO_ONE">
+      <point x="0.0" y="-68.0" />
+      <point x="-4.0" y="1125.0" />
+      <point x="756.0" y="1125.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="com.MK_20.game.Screens.WonScreen" target="com.MK_20.game.AngryBirds" relationship="TO_ONE">
+      <point x="0.0" y="116.0" />
+      <point x="756.0" y="1145.0" />
+      <point x="336.0" y="1145.0" />
+      <point x="336.0" y="1165.0" />
+      <point x="-4.0" y="1165.0" />
+      <point x="0.0" y="-68.0" />
+    </edge>
+    <edge source="com.MK_20.game.AngryBirds" target="com.MK_20.game.Screens.Settings" relationship="TO_ONE">
+      <point x="0.0" y="-68.0" />
+      <point x="-4.0" y="1125.0" />
+      <point x="196.0" y="1125.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="com.MK_20.game.Sprites.Wood" target="com.MK_20.game.Sprites.InteractiveTileObject" relationship="GENERALIZATION">
+      <point x="0.0" y="-31.5" />
+      <point x="436.0" y="1505.0" />
+      <point x="496.0" y="1505.0" />
+      <point x="0.0" y="31.5" />
+    </edge>
+    <edge source="com.MK_20.game.Screens.FailedScreen" target="com.MK_20.game.AngryBirds" relationship="TO_ONE">
+      <point x="0.0" y="116.0" />
+      <point x="616.0" y="1145.0" />
+      <point x="336.0" y="1145.0" />
+      <point x="336.0" y="1165.0" />
+      <point x="-4.0" y="1165.0" />
+      <point x="0.0" y="-68.0" />
+    </edge>
+    <edge source="com.MK_20.game.AngryBirds" target="com.MK_20.game.Screens.FailedScreen" relationship="TO_ONE">
+      <point x="0.0" y="-68.0" />
+      <point x="-4.0" y="1125.0" />
+      <point x="616.0" y="1125.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+    <edge source="com.MK_20.game.Screens.Start" target="com.MK_20.game.AngryBirds" relationship="TO_ONE">
+      <point x="0.0" y="-128.0" />
+      <point x="-104.0" y="1245.0" />
+      <point x="-4.0" y="1245.0" />
+      <point x="0.0" y="-68.0" />
+    </edge>
+    <edge source="com.MK_20.game.Screens.PlayScreen" target="com.MK_20.game.Sprites.Pig" relationship="TO_ONE">
+      <point x="0.0" y="140.0" />
+      <point x="-64.0" y="1105.0" />
+      <point x="76.0" y="1105.0" />
+      <point x="0.0" y="44.0" />
+    </edge>
+    <edge source="com.MK_20.game.Screens.HomeScreen" target="com.MK_20.game.AngryBirds" relationship="TO_ONE">
+      <point x="0.0" y="116.0" />
+      <point x="476.0" y="1145.0" />
+      <point x="336.0" y="1145.0" />
+      <point x="336.0" y="1165.0" />
+      <point x="-4.0" y="1165.0" />
+      <point x="0.0" y="-68.0" />
+    </edge>
+    <edge source="com.MK_20.game.AngryBirds" target="com.MK_20.game.Screens.HomeScreen" relationship="TO_ONE">
+      <point x="0.0" y="-68.0" />
+      <point x="-4.0" y="1125.0" />
+      <point x="476.0" y="1125.0" />
+      <point x="0.0" y="116.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="1.2579396243683028" showDependencies="true" x="186.362510618394" y="1169.090816" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Inner Classes</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
