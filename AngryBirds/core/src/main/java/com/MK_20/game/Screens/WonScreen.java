@@ -59,6 +59,7 @@ public class WonScreen implements Screen {
                     game.setScreen(game.homeScreen);
                 }
                 else{
+                    game.currentLevelIndex += 1; //CHECK
                     game.currentLevel = new PlayScreen(game,game.currentLevel.index+1);
                     game.setScreen(game.currentLevel);
                 }

@@ -54,7 +54,7 @@ public class PauseScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("home button clicked");
-                game.setScreen(game.homeScreen);
+                game.setScreen(game.saveScreen);
             }
         });
         Table table = new Table();
