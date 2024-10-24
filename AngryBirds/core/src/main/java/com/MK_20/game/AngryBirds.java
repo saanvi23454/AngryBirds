@@ -11,22 +11,27 @@ public class AngryBirds extends Game {
     public static final int HEIGHT = 480;
     public static final float PPM = 2.22f; // 100 pixels per meter
     public HomeScreen homeScreen;
+    public LoadScreen loadScreen;
     public Settings settings;
     public PauseScreen pause;
     public FailedScreen failed;
     public WonScreen won;
     public PlayScreen currentLevel;
+    public SaveScreen saveScreen;
     public int totalLevels;
+    public int currentLevelIndex;
 
     @Override
     public void create() {
         totalLevels = 2;
         batch = new SpriteBatch();
         homeScreen = new HomeScreen(this);
+        loadScreen = new LoadScreen(this);
         settings = new Settings(this);
         pause = new PauseScreen(this);
         failed = new FailedScreen(this);
         won = new WonScreen(this);
+        saveScreen = new SaveScreen(this);
         setScreen(new Start(this));
     }
 
