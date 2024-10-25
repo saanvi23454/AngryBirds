@@ -2,6 +2,7 @@ package com.MK_20.game.Screens;
 
 import com.MK_20.game.AngryBirds;
 import com.MK_20.game.Sprites.Pig;
+import com.MK_20.game.Sprites.RedBird;
 import com.MK_20.game.Tools.LevelCreator;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -45,20 +46,10 @@ public class PlayScreen implements Screen {
     private Box2DDebugRenderer debugRenderer;
     public int index;
 
-    private Pig p;
-
-    private ImageButton p11;
-    private ImageButton p22;
-    private ImageButton p33;
-
-    private ImageButton b11;
-    private ImageButton b22;
-    private ImageButton b33;
-    private ImageButton b44;
+    private Pig p,p1,p2;
+    private RedBird rb1,rb2,rb3,rb4;
 
     private ImageButton sling;
-    private ImageButton glassbox;
-
 
     public PlayScreen(AngryBirds game, int index) {
         this.index = index;
@@ -84,33 +75,13 @@ public class PlayScreen implements Screen {
             }
         });
 
-        p11 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("pig.png"))));
-        p22 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("pig.png"))));
-        p33 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("pig.png"))));
-
-        b11 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("redbird.png"))));
-        b22 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("redbird.png"))));
-        b33 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("redbird.png"))));
-        b44 = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("redbird.png"))));
-
         sling = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("sling.png"))));
-        glassbox = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("glassbox.png"))));
 
         Table table = new Table();
         table.top().left().padLeft(10).padTop(10);
         table.setFillParent(true);
         table.add(pauseButton).size(50,50);
-
-        table.add(glassbox).size(30,30);
         table.add(sling).size(60,140);
-        table.add(p11).size(25,25);
-        table.add(p22).size(25,25);
-        table.add(p33).size(25,25);
-        table.add(b11).size(30,30);
-        table.add(b22).size(30,30);
-        table.add(b33).size(30,30);
-        table.add(b44).size(30,30);
-
         stage.addActor(table);
 
         world = new World(new Vector2(0,-10), true);
@@ -118,9 +89,15 @@ public class PlayScreen implements Screen {
 
         new LevelCreator(world, tiledmap);
 
+        p = new Pig(world,855f,172f,25,25,12);
+        p1 = new Pig(world,889f,201f,25,25,12);
+        p2 = new Pig(world,920f,172f,25,25,12);
 
-        p = new Pig(world);
-
+        rb1 = new RedBird(world, 507f,167f,30,30,11);
+        rb1.body.setType(BodyDef.BodyType.StaticBody);                              //Change this later.
+        rb2 = new RedBird(world, 415f,85f,30,30,11);
+        rb3 = new RedBird(world, 440f,85f,30,30,11);
+        rb4 = new RedBird(world, 465f,85f,30,30,11);
     }
 
     public void handleInput(float delta) {
@@ -153,6 +130,15 @@ public class PlayScreen implements Screen {
         handleInput(delta);
 
         world.step(1/60f, 6, 2);
+//Update implementation.
+        p.update(delta);
+        p1.update(delta);
+        p2.update(delta);
+        rb1.update(delta);
+        rb2.update(delta);
+        rb3.update(delta);
+        rb4.update(delta);
+
         camera.position.set(2*320, 250,0);
 //        camera.position.x=p.body.getPosition().x;
 //        camera.position.y=p.body.getPosition().y;
@@ -161,16 +147,6 @@ public class PlayScreen implements Screen {
         pauseButton.setPosition(camera.position.x - viewport.getWorldWidth() / 2 + 10, camera.position.y + viewport.getWorldHeight() / 2 - 60);
 
         sling.setPosition(474.0f, 62.0f);
-        glassbox.setPosition(885.0f, 172.0f);
-
-        p11.setPosition(855.0f, 172.0f);
-        p22.setPosition(889.0f, 201.0f);
-        p33.setPosition(920.0f, 172.0f);
-        b11.setPosition(494.0f, 150.0f);
-        b22.setPosition(415.0f, 85.0f);
-        b33.setPosition(440.0f, 85.0f);
-        b44.setPosition(465.0f, 85.0f);
-
     }
 
     @Override
@@ -191,10 +167,21 @@ public class PlayScreen implements Screen {
         //box 2D debug lines.
         debugRenderer.render(world, camera.combined);
 
-        //pause button.
         game.batch.setProjectionMatrix(camera.combined);
-//        stage.act();
+        //First the stage so that sling comes behind any bird.
+        stage.act();
         stage.draw();
+        //draw birds and pigs.
+        game.batch.begin();
+//        optimize this code or make it clean.
+        p.draw(game.batch);
+        p1.draw(game.batch);
+        p2.draw(game.batch);
+        rb1.draw(game.batch);
+        rb2.draw(game.batch);
+        rb3.draw(game.batch);
+        rb4.draw(game.batch);
+        game.batch.end();
     }
 
     @Override
