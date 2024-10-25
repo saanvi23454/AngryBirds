@@ -54,7 +54,7 @@ public class WonScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("next button clicked");
-                if (game.totalLevels==game.currentLevel.index){
+                if (game.totalLevels==game.currentLevel.index || game.currentLevel.index==1){       //only for now the or statement.
                     System.out.println("You have cleared the last level.");
                     game.setScreen(game.homeScreen);
                 }

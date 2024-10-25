@@ -23,7 +23,7 @@ public class AngryBirds extends Game {
 
     @Override
     public void create() {
-        totalLevels = 2;
+        totalLevels = 7;
         batch = new SpriteBatch();
         homeScreen = new HomeScreen(this);
         loadScreen = new LoadScreen(this);

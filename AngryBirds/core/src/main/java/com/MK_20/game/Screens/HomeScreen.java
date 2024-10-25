@@ -63,12 +63,14 @@ public class HomeScreen implements Screen {
         for (int i = 1; i <= game.totalLevels; i++) {
             final int index = i;
             TextButton levelButton = new TextButton(""+i,style);
-            int finalI = i;
             levelButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     System.out.println("Level "+index+" Clicked");
-                    game.currentLevelIndex = finalI; //relatively FINAL as variable is accessed from inner class
+                    if (index!=1){
+                        return;
+                    }
+                    game.currentLevelIndex = index; //relatively FINAL as variable is accessed from inner class
                     game.setScreen(game.loadScreen);
                 }
             });
