@@ -1,6 +1,8 @@
 package com.MK_20.game.Screens;
 
 import com.MK_20.game.AngryBirds;
+import com.MK_20.game.Levels.Level;
+import com.MK_20.game.Levels.Level1;
 import com.MK_20.game.Sprites.Pig;
 import com.MK_20.game.Sprites.RedBird;
 import com.MK_20.game.Tools.LevelCreator;
@@ -42,14 +44,25 @@ public class PlayScreen implements Screen {
     private OrthogonalTiledMapRenderer renderer;
     private ImageButton pauseButton;
 
-    private World world;
+    public World world;
     private Box2DDebugRenderer debugRenderer;
     public int index;
 
-    private Pig p,p1,p2;
-    private RedBird rb1,rb2,rb3,rb4;
-
     private ImageButton sling;
+
+    Level level;
+
+    private Level loadLevel(int index) {
+        switch (index) {
+            case 1:
+                return new Level1(world);
+            case 2:
+//                return new Level2(world);
+            case 3:
+//                return new Level3(world);
+        }
+        return null;
+    }
 
     public PlayScreen(AngryBirds game, int index) {
         this.index = index;
@@ -88,16 +101,7 @@ public class PlayScreen implements Screen {
         debugRenderer = new Box2DDebugRenderer();
 
         new LevelCreator(world, tiledmap);
-
-        p = new Pig(world,855f,172f,25,25,12);
-        p1 = new Pig(world,889f,201f,25,25,12);
-        p2 = new Pig(world,920f,172f,25,25,12);
-
-        rb1 = new RedBird(world, 507f,167f,30,30,11);
-        rb1.body.setType(BodyDef.BodyType.StaticBody);                              //Change this later.
-        rb2 = new RedBird(world, 415f,85f,30,30,11);
-        rb3 = new RedBird(world, 440f,85f,30,30,11);
-        rb4 = new RedBird(world, 465f,85f,30,30,11);
+        level = loadLevel(index);
     }
 
     public void handleInput(float delta) {
@@ -108,17 +112,17 @@ public class PlayScreen implements Screen {
             game.setScreen(game.failed);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)){
-            p.body.applyLinearImpulse(new Vector2(0,50f),p.body.getWorldCenter(), true);
+            level.birds.get(1).body.applyLinearImpulse(new Vector2(0,50f),level.birds.get(1).body.getWorldCenter(), true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && p.body.getLinearVelocity().x <= 2){
-            p.body.applyLinearImpulse(new Vector2(50f,0),p.body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && level.birds.get(1).body.getLinearVelocity().x <= 2){
+            level.birds.get(1).body.applyLinearImpulse(new Vector2(50f,0),level.birds.get(1).body.getWorldCenter(), true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && p.body.getLinearVelocity().x >= -2){
-            p.body.applyLinearImpulse(new Vector2(-50f,0),p.body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && level.birds.get(1).body.getLinearVelocity().x >= -2){
+            level.birds.get(1).body.applyLinearImpulse(new Vector2(-50f,0),level.birds.get(1).body.getWorldCenter(), true);
         }
         if (Gdx.input.justTouched()){
-            System.out.println(p.body.getPosition().x);
-            System.out.println(p.body.getPosition().y);
+            System.out.println(level.birds.get(1).body.getPosition().x);
+            System.out.println(level.birds.get(1).body.getPosition().y);
             System.out.println("Window width: "+Gdx.graphics.getWidth());
             System.out.println("World width: "+viewport.getWorldWidth());
 //            System.out.println(10000*delta);
@@ -131,13 +135,7 @@ public class PlayScreen implements Screen {
 
         world.step(1/60f, 6, 2);
 //Update implementation.
-        p.update(delta);
-        p1.update(delta);
-        p2.update(delta);
-        rb1.update(delta);
-        rb2.update(delta);
-        rb3.update(delta);
-        rb4.update(delta);
+        level.update(delta);
 
         camera.position.set(2*320, 250,0);
 //        camera.position.x=p.body.getPosition().x;
@@ -172,16 +170,7 @@ public class PlayScreen implements Screen {
         stage.act();
         stage.draw();
         //draw birds and pigs.
-        game.batch.begin();
-//        optimize this code or make it clean.
-        p.draw(game.batch);
-        p1.draw(game.batch);
-        p2.draw(game.batch);
-        rb1.draw(game.batch);
-        rb2.draw(game.batch);
-        rb3.draw(game.batch);
-        rb4.draw(game.batch);
-        game.batch.end();
+        level.drawAll(game.batch);
     }
 
     @Override

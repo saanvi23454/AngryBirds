@@ -1,6 +1,7 @@
 package com.MK_20.game.Screens;
 
 import com.MK_20.game.AngryBirds;
+import com.MK_20.game.Tools.SavedData;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.files.FileHandle;
@@ -16,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -63,15 +65,28 @@ public class HomeScreen implements Screen {
         for (int i = 1; i <= game.totalLevels; i++) {
             final int index = i;
             TextButton levelButton = new TextButton(""+i,style);
+            int finalI = i;
             levelButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     System.out.println("Level "+index+" Clicked");
-                    if (index!=1){
-                        return;
+                    game.currentLevelIndex = finalI; //relatively FINAL as variable is accessed from inner class
+                    try {
+                        String savePath = AngryBirds.SAVEPATH;
+                        Json json = new Json();
+                        SavedData data = json.fromJson(SavedData.class, Gdx.files.local(savePath).readString());
+                        if (data.levelIndex==finalI) {
+                            game.setScreen(game.loadScreen);
+                        }
+                        else{
+                            game.currentLevel=new PlayScreen(game,game.currentLevelIndex);
+                            game.setScreen(game.currentLevel);
+                        }
                     }
-                    game.currentLevelIndex = index; //relatively FINAL as variable is accessed from inner class
-                    game.setScreen(game.loadScreen);
+                    catch (Exception e) {
+                        game.currentLevel=new PlayScreen(game,game.currentLevelIndex);
+                        game.setScreen(game.currentLevel);
+                    }
                 }
             });
             levelButtons.add(levelButton);

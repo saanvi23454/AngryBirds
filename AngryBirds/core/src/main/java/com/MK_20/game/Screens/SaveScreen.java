@@ -1,6 +1,8 @@
 package com.MK_20.game.Screens;
 
 import com.MK_20.game.AngryBirds;
+import com.MK_20.game.Sprites.Bird;
+import com.MK_20.game.Tools.SavedData;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -56,10 +59,26 @@ public class SaveScreen implements Screen {
         saveButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-
                 System.out.println("save button clicked");
                 //functionality for serialization
-                game.setScreen(game.homeScreen);
+                SavedData data=new SavedData();
+
+                //birds and pigs
+                data.birds.addAll(game.currentLevel.level.birds);
+                data.pigs.addAll(game.currentLevel.level.pigs);
+                data.levelIndex= game.currentLevelIndex;
+
+                //Serializing to file.
+                try{
+                    Json json = new Json();
+                    String savePath = AngryBirds.SAVEPATH;
+                    Gdx.files.local(savePath).writeString(json.toJson(data), false);
+                    System.out.println("game saved in: " + savePath);
+                    game.setScreen(game.homeScreen);
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 

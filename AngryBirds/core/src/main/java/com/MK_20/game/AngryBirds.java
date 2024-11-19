@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class AngryBirds extends Game {
+    public static final String SAVEPATH="save.json";
     public SpriteBatch batch;
     public static final int WIDTH = 800;
     public static final int HEIGHT = 480;
@@ -23,7 +24,7 @@ public class AngryBirds extends Game {
 
     @Override
     public void create() {
-        totalLevels = 7;
+        totalLevels = 2;
         batch = new SpriteBatch();
         homeScreen = new HomeScreen(this);
         loadScreen = new LoadScreen(this);

@@ -1,6 +1,9 @@
 package com.MK_20.game.Screens;
 
 import com.MK_20.game.AngryBirds;
+import com.MK_20.game.Sprites.Bird;
+import com.MK_20.game.Sprites.Pig;
+import com.MK_20.game.Tools.SavedData;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -15,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -24,7 +28,7 @@ public class LoadScreen implements Screen {
     private OrthographicCamera camera;
     private Viewport viewport;
 
-    private Texture background,loadFromPrev,restart;
+    private Texture background;
     private ImageButton loadButton, restartButton;
     private Stage stage;
 
@@ -38,19 +42,25 @@ public class LoadScreen implements Screen {
         stage = new Stage(viewport);
 
         background = new Texture("loadScreenBG.png");
-//        loadFromPrev = new Texture("loadButton.png");
-//        restart = new Texture("restartButton.png");
         loadButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("loadButton.png"))));
         restartButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("restartButton.png"))));
-
-
 
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("restart button clicked");
-                game.currentLevel= new PlayScreen(game,game.currentLevelIndex); //change level index on clicking next in implementation
-                game.setScreen(game.currentLevel);
+                try {
+                    // Delete the save file
+                    String savePath = AngryBirds.SAVEPATH;
+                    Gdx.files.local(savePath).delete();
+
+                    // Restart the game
+                    System.out.println("restart button clicked");
+                    game.currentLevel = new PlayScreen(game, game.currentLevelIndex);
+                    game.setScreen(game.currentLevel);
+                } catch (Exception e) {
+                    System.out.println("Error deleting save file: " + e.getMessage());
+                }
             }
         });
 
@@ -58,10 +68,40 @@ public class LoadScreen implements Screen {
         loadButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                try {
+                    String savePath = AngryBirds.SAVEPATH;
+                    Json json = new Json();
+                    SavedData data = json.fromJson(SavedData.class, Gdx.files.local(savePath).readString());
 
-                System.out.println("load button clicked");
-                game.currentLevel= new PlayScreen(game,game.currentLevelIndex);
-                game.setScreen(game.currentLevel);
+                    // Reconstruct the level
+                    PlayScreen playScreen = new PlayScreen(game, data.levelIndex);
+                    game.currentLevel = playScreen;
+
+                    //clearing the birds.
+                    for (Bird b: playScreen.level.birds){
+                        playScreen.world.destroyBody(b.body);
+                    }
+                    playScreen.level.birds.clear();
+                    //adding the birds.
+                    for (Bird b: data.birds){
+                        playScreen.level.birds.add(Bird.createBird(playScreen.world, b));
+                    }
+
+                    //clearing out the pigs.
+                    for (Pig p: playScreen.level.pigs) {
+                        playScreen.world.destroyBody(p.body);
+                    }
+                    playScreen.level.pigs.clear();
+                    //adding the pigs.
+                    for (int i=0; i<data.pigs.size(); i++) {
+                        Pig p=new Pig(playScreen.world,data.pigs.get(i));
+                        playScreen.level.pigs.add(p);
+                    }
+
+                    game.setScreen(playScreen);
+                } catch (Exception e) {
+                    System.out.println("Error loading game: " + e.getMessage());
+                }
             }
         });
 
