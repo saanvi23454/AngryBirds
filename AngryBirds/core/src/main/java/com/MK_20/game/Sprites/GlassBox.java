@@ -12,4 +12,9 @@ public class GlassBox extends Box {
         setTexture(this.boxTexture); 
         setRegion(boxTexture);      
     }
+
+    @Override
+    public float getDensity() {
+        return 0.6f;
+    }
 }
