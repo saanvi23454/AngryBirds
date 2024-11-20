@@ -12,4 +12,9 @@ public class SteelBox extends Box {
         setTexture(this.boxTexture); 
         setRegion(boxTexture);      
     }
+
+    @Override
+    public float getDensity() {
+        return 4.0f;
+    }
 }
