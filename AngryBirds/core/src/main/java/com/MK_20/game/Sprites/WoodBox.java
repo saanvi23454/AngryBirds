@@ -12,4 +12,9 @@ public class WoodBox extends Box {
         setTexture(this.boxTexture); 
         setRegion(boxTexture);      
     }
+
+    @Override
+    public float getDensity() {
+        return 1.0f;
+    }
 }
