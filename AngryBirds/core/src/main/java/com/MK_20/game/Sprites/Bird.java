@@ -38,7 +38,21 @@ public abstract class Bird extends Sprite implements Json.Serializable{
         if (b.texturePath.equals("redBird.png")) {
             return new RedBird(world, b.x, b.y, b.width, b.height, b.radius); // RedBird subclass
         }
-        // Add other conditions for different bird types (BlueBird, YellowBird, etc.)
+        else if (b.texturePath.equals("blueBird.png")){
+            return new BlueBird(world, b.x, b.y, b.width, b.height, b.radius); // BlueBird subclass
+        }
+        else if (b.texturePath.equals("yellowBird.png")){
+            return new YellowBird(world, b.x, b.y, b.width, b.height, b.radius); // YellowBird subclass
+        }
+        else if (b.texturePath.equals("toucanetBird.png")){
+            return new ToucanetBird(world, b.x, b.y, b.width, b.height, b.radius); // ToucanetBird subclass
+        }
+        else if (b.texturePath.equals("chickenBird.png")){
+            return new ChickenBird(world, b.x, b.y, b.width, b.height, b.radius); // ChickenBird subclass
+        }
+        else if (b.texturePath.equals("bombBird.png")){
+            return new BombBird(world, b.x, b.y, b.width, b.height, b.radius); // BombBird subclass
+        }
         // For now, return a RedBird if texturePath doesn't match
         return new RedBird(world, b.x, b.y, b.width, b.height, b.radius);
     }
@@ -87,6 +101,13 @@ public abstract class Bird extends Sprite implements Json.Serializable{
         }
         catch (Exception e) {
             System.out.println("Error deserializing bird: " + e.getMessage());
+        }
+    }
+
+    public void dispose() {
+        if (body != null) {
+            world.destroyBody(body); // Safely remove the body from the world
+            body = null;
         }
     }
 }
