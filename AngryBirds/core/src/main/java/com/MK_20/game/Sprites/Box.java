@@ -1,6 +1,7 @@
 package com.MK_20.game.Sprites;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.Json;
@@ -12,8 +13,10 @@ public abstract class Box extends Sprite implements Json.Serializable {
     public transient Body body;
     public transient Texture boxTexture;
 
-    public float x, y, width, height, side; // Serializable fields
+    public float x, y, width, height, side, health; // Serializable fields
     public String texturePath;
+
+    //public boolean isDestroyed = false;
 
     public Box() {}
 
@@ -27,6 +30,7 @@ public abstract class Box extends Sprite implements Json.Serializable {
         this.side = side;
         this.texturePath = texturePath;
         this.boxTexture = boxTexture;
+        this.health = 3;
 
         defineBox(x,y,side);
         setSize(width, height);
@@ -47,9 +51,11 @@ public abstract class Box extends Sprite implements Json.Serializable {
         fixtureDef.density = getDensity(); // Density specific to the box type
         fixtureDef.friction = 0.5f;
         fixtureDef.restitution = 0.2f; // Bounciness
-        body.createFixture(fixtureDef);
+        Fixture fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(this);
 
-        shape.dispose(); // Clean up the shape
+        //check if needed and when ??
+        shape.dispose(); // Clean up after using the shape
     }
 
     public abstract float getDensity(); // Abstract method to define density per box type
@@ -72,6 +78,10 @@ public abstract class Box extends Sprite implements Json.Serializable {
         return new WoodBox(world, box.x, box.y, box.width, box.height, box.side);
     }
 
+    @Override
+    public void draw(Batch batch) {
+        super.draw(batch);
+    }
 
     //see where to use the dispose method to dispose the body from the world ??
     public void dispose() {
@@ -93,6 +103,7 @@ public abstract class Box extends Sprite implements Json.Serializable {
         json.writeValue("height", height);
         json.writeValue("side", side);
         json.writeValue("texturePath", texturePath);
+        json.writeValue("health", health);
     }
 
     @Override
@@ -103,5 +114,6 @@ public abstract class Box extends Sprite implements Json.Serializable {
         height = json.readValue("height", Float.class, jsonData);
         side = json.readValue("side", Float.class, jsonData);
         texturePath = json.readValue("texturePath", String.class, jsonData);
+        health = json.readValue("health", Float.class, jsonData);
     }
 }
