@@ -13,10 +13,16 @@ public abstract class Box extends Sprite implements Json.Serializable {
     public transient Body body;
     public transient Texture boxTexture;
 
-    public float x, y, width, height, side, health; // Serializable fields
+    public float x, y, width, height, side; // Serializable fields
     public String texturePath;
 
-    //public boolean isDestroyed = false;
+    public boolean isDestroyed = false;
+    public float destroyTime = 0f;
+    public float stateTime = 0f;
+    public float currentAlpha = 1f;
+
+    public boolean totallyDestroyed = false;
+    public float health;
 
     public Box() {}
 
@@ -58,14 +64,6 @@ public abstract class Box extends Sprite implements Json.Serializable {
         shape.dispose(); // Clean up after using the shape
     }
 
-    public abstract float getDensity(); // Abstract method to define density per box type
-
-    public void update(float delta) {
-        this.x = body.getPosition().x;
-        this.y = body.getPosition().y;
-        setPosition(body.getPosition().x - width / 2, body.getPosition().y - height / 2);
-    }
-
     public static Box createBox(World world, Box box) {
         if (box.texturePath.equals("glassBox.png")) {
             return new GlassBox(world, box.x, box.y, box.width, box.height, box.side);
@@ -78,10 +76,50 @@ public abstract class Box extends Sprite implements Json.Serializable {
         return new WoodBox(world, box.x, box.y, box.width, box.height, box.side);
     }
 
+    public abstract float getDensity(); // Abstract method to define density per box type
+
+    public void markAsDestroyed() {
+        if (isDestroyed) return;
+        isDestroyed = true;  // Mark the pig as destroyed
+        destroyTime = 0.01f;
+    }
+
+    public void update(float delta) {
+        if (totallyDestroyed){
+            return;
+        }
+        if (isDestroyed) {
+            stateTime += delta;
+            System.out.println("State Time: " + stateTime);  // Debugging output to track stateTime
+            if (stateTime >= destroyTime) {
+                world.destroyBody(body);
+                body = null;
+                totallyDestroyed = true;
+            }
+        }
+        else {
+            this.x = body.getPosition().x;
+            this.y = body.getPosition().y;
+            setPosition(body.getPosition().x - getWidth() / 2, body.getPosition().y - getHeight() / 2);
+        }
+    }
+
     @Override
     public void draw(Batch batch) {
-        super.draw(batch);
+        if (totallyDestroyed){
+            return;
+        }
+        if (isDestroyed) {
+            //fade effect
+            float alpha = Math.max(0, 1 - stateTime / destroyTime);
+            setColor(1f, 1f, 1f, alpha);  // set the alpha value to the sprite's color
+            System.out.println("Alpha: " + alpha);  // Debugging output to check alpha value
+
+        } else {
+            super.draw(batch);
+        }
     }
+
 
     //see where to use the dispose method to dispose the body from the world ??
     public void dispose() {
@@ -103,6 +141,11 @@ public abstract class Box extends Sprite implements Json.Serializable {
         json.writeValue("height", height);
         json.writeValue("side", side);
         json.writeValue("texturePath", texturePath);
+        json.writeValue("isDestroyed", isDestroyed);
+        json.writeValue("destroyTime", destroyTime);
+        json.writeValue("stateTime", stateTime);
+        json.writeValue("currentAlpha", currentAlpha);
+        json.writeValue("totallyDestroyed", totallyDestroyed);
         json.writeValue("health", health);
     }
 
@@ -114,6 +157,11 @@ public abstract class Box extends Sprite implements Json.Serializable {
         height = json.readValue("height", Float.class, jsonData);
         side = json.readValue("side", Float.class, jsonData);
         texturePath = json.readValue("texturePath", String.class, jsonData);
+        isDestroyed = json.readValue("isDestroyed", boolean.class, jsonData);
+        destroyTime = json.readValue("destroyTime", Float.class, jsonData);
+        stateTime = json.readValue("stateTime", Float.class, jsonData);
+        currentAlpha = json.readValue("currentAlpha", Float.class, jsonData);
+        totallyDestroyed = json.readValue("totallyDestroyed", boolean.class, jsonData);
         health = json.readValue("health", Float.class, jsonData);
     }
 }
