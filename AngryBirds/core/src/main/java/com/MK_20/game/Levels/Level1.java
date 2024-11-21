@@ -30,10 +30,10 @@ public class Level1 extends Level {
         birds.add(rb3);
         birds.add(rb4);
 
-//        box1 = new WoodBox(world, 600, 50, 30, 30, 30);
+        box1 = new WoodBox(world, 600, 50, 30, 30, 30);
 //        box2 = new WoodBox(world, 600, 95, 30, 30, 30);
 //        box3 = new WoodBox(world, 600, 140, 30, 30, 30);
-//        boxes.add(box1);
+        boxes.add(box1);
 //        boxes.add(box2);
 //        boxes.add(box3);
 
