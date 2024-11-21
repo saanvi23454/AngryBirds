@@ -6,6 +6,7 @@ import com.MK_20.game.Levels.Level1;
 import com.MK_20.game.Sprites.Pig;
 import com.MK_20.game.Sprites.RedBird;
 import com.MK_20.game.Tools.LevelCreator;
+import com.MK_20.game.Tools.WorldContactListener;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
@@ -72,6 +73,7 @@ public class PlayScreen implements Screen {
         stage = new Stage(viewport);
         viewport.apply();
 
+
         maploader = new TmxMapLoader();
         tiledmap = maploader.load("levels/Level"+index+"/level"+index+".tmx");
         renderer = new OrthogonalTiledMapRenderer(tiledmap, 0.45f);
@@ -100,6 +102,8 @@ public class PlayScreen implements Screen {
         world = new World(new Vector2(0,-10), true);
         debugRenderer = new Box2DDebugRenderer();
 
+        world.setContactListener(new WorldContactListener());
+
         new LevelCreator(world, tiledmap);
         level = loadLevel(index);
     }
@@ -112,13 +116,16 @@ public class PlayScreen implements Screen {
             game.setScreen(game.failed);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)){
-            level.birds.get(1).body.applyLinearImpulse(new Vector2(0,50f),level.birds.get(1).body.getWorldCenter(), true);
+            level.birds.get(1).body.applyLinearImpulse(new Vector2(0,300f),level.birds.get(1).body.getWorldCenter(), true);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && level.birds.get(1).body.getLinearVelocity().x <= 2){
-            level.birds.get(1).body.applyLinearImpulse(new Vector2(50f,0),level.birds.get(1).body.getWorldCenter(), true);
+            level.birds.get(1).body.applyLinearImpulse(new Vector2(300f,0),level.birds.get(1).body.getWorldCenter(), true);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && level.birds.get(1).body.getLinearVelocity().x >= -2){
-            level.birds.get(1).body.applyLinearImpulse(new Vector2(-50f,0),level.birds.get(1).body.getWorldCenter(), true);
+            level.birds.get(1).body.applyLinearImpulse(new Vector2(-300f,0),level.birds.get(1).body.getWorldCenter(), true);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && level.birds.get(1).body.getLinearVelocity().x >= -2){
+            level.birds.get(1).body.applyLinearImpulse(new Vector2(0f,-300),level.birds.get(1).body.getWorldCenter(), true);
         }
         if (Gdx.input.justTouched()){
             System.out.println(level.birds.get(1).body.getPosition().x);
