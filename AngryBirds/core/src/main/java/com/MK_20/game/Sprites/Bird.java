@@ -116,4 +116,7 @@ public abstract class Bird extends Sprite implements Json.Serializable{
         }
     }
 
+    public float getWeight(){
+        return 0.01f;
+    }
 }
