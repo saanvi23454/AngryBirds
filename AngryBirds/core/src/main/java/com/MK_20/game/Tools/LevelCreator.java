@@ -1,7 +1,6 @@
 package com.MK_20.game.Tools;
 
 import com.MK_20.game.AngryBirds;
-import com.MK_20.game.Sprites.Wood;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -87,10 +86,5 @@ public class LevelCreator {
             body.createFixture(fixtureDef);
         }
 
-        //wood body
-        for (MapObject object: tiledmap.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-            new Wood(world,tiledmap,rectangle);
-        }
     }
 }
