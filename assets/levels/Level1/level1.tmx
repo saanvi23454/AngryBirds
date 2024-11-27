@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="50" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="13" nextobjectid="41">
+ <tileset firstgid="1" source="blue_desert.tsx"/>
+ <tileset firstgid="226" source="colored_land.tsx"/>
+ <tileset firstgid="451" source="elementWood025.tsx"/>
+ <tileset firstgid="457" source="grass.tsx"/>
+ <tileset firstgid="458" source="bush.tsx"/>
+ <tileset firstgid="459" source="cactus.tsx"/>
+ <tileset firstgid="460" source="sling2.tsx"/>
+ <layer id="1" name="background" width="50" height="20">
+  <data encoding="base64" compression="zlib">
+   eJzty8VWFVAAQNHnHwAqWNiJit2K3WJ3Y3djd3diYrdiYit2dwe2f+IeOPQD7uAN9uSsdWIikUhMVFTUfxWiMEVIpOi/HksceclHfuJJoAAFA3srkERFKlGZYhSnBCUpRWnKUJZylA/srUs96tOAhiRThapUozo1qEktalMnsLc1bWhLO9rTiBQa04SmNKM5LWhJq8DenvSiN33oSwdS6UgnOtOFrnSjOz0Ce4czgpGMYjT96M8ABjKIwaQxhKEMC+ydRjrTmcFMxjCWcYxnAhOZxGSmMDWwdwlLWcZyVjCL2cxhLvOYzwIWsojFgb2b2UIGW9nGSlaxmjWsZR3r2cBGNgX2HuAghzjMEbazg53sIpPd7GEv+9gf2HuO82RzgYsc5RjHOcFJsjjFac5wNrD3Nne4yz3uc4nLXOEq17jODXK4ya3A3le85g1veccDHvKIxzzhKc94zgteBvb+4Ce/+M0f3vOBj3ziM1/I5Svf+B7YmycqKH8BsLRX0A==
+  </data>
+ </layer>
+ <layer id="2" name="graphics" width="50" height="20">
+  <data encoding="base64" compression="zlib">
+   eJztl0sKgDAQQ9vje68i+NcbOYu6EFyoSe0geZBNyUDesimGkBylzXlK7d1MD0/Ig78FQR78LQjy4G9BkAd/C4I8+FsQ5HG/O1p3Kuz9hcds3eUHHqt1N+cew8Vtn9+6eE5JEI/GUY7/1Ju72tsZHjv016Cb
+  </data>
+ </layer>
+ <objectgroup id="4" name="ground">
+  <object id="4" x="3.0303" y="1150.3" width="3193.94" height="124.242"/>
+  <object id="5" x="574.667" y="1087.64" width="258.515" height="60.6061"/>
+  <object id="30" x="2300.94" y="5.0303" width="133.333" height="1142.42"/>
+  <object id="31" x="0" y="0" width="2300" height="127.273"/>
+  <object id="32" x="9.09091" y="136.242" width="51.5152" height="1011.64"/>
+ </objectgroup>
+ <objectgroup id="5" name="wood">
+  <object id="17" x="2002.34" y="986.67" width="33" height="162.667"/>
+  <object id="18" x="1877.67" y="952.667" width="171.333" height="31.3333"/>
+  <object id="29" x="1893.5" y="986.666" width="33" height="162.667"/>
+ </objectgroup>
+ <objectgroup id="6" name="glass"/>
+ <objectgroup id="12" name="woodlog"/>
+ <objectgroup id="8" name="birds">
+  <object id="37" x="711.824" y="1051.66" width="37.5097" height="34.7311">
+   <ellipse/>
+  </object>
+  <object id="38" x="670.841" y="1051.66" width="37.5097" height="34.7311">
+   <ellipse/>
+  </object>
+  <object id="39" x="629.337" y="1051.83" width="37.5097" height="34.7311">
+   <ellipse/>
+  </object>
+  <object id="40" x="587.834" y="1052.18" width="37.5097" height="34.7311">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup id="10" name="pigs">
+  <object id="24" x="1942.17" y="1104.16" width="44.8333" height="45.5">
+   <ellipse/>
+  </object>
+ </objectgroup>
+ <objectgroup id="11" name="sling">
+  <object id="28" x="794.667" y="940"/>
+ </objectgroup>
+</map>
