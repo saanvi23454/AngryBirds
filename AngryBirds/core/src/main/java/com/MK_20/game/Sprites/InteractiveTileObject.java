@@ -18,7 +18,7 @@ public abstract class InteractiveTileObject implements Json.Serializable {
     protected transient World world;
     protected transient TiledMap tiledMap;
     protected transient TiledMapTile tile;
-    protected transient Rectangle bounds;
+    public transient Rectangle bounds;
     protected transient Ellipse eBounds;
     public transient Body body;
     protected transient Sprite sprite;
@@ -106,8 +106,8 @@ public abstract class InteractiveTileObject implements Json.Serializable {
     public void write(Json json) {
         // Save serializable fields
         System.out.println(body.getPosition().x+" "+body.getPosition().y);
-        json.writeValue("x", body.getPosition().x*AngryBirds.PPM);
-        json.writeValue("y", body.getPosition().y*AngryBirds.PPM);
+        json.writeValue("x", body.getPosition().x);
+        json.writeValue("y", body.getPosition().y);
         json.writeValue("width", width);
         json.writeValue("height", height);
         json.writeValue("isDestroyed", isDestroyed);
