@@ -67,6 +67,44 @@ Once upon a time, a peaceful bird kingdom was disrupted by cunning pigs who stol
 
 ---
 
+## 🧪 **JUnit Testing Structure**
+
+### **SlingTest**
+1. `testSingletonInstance`: Verifies the singleton behavior of the `Slingshot` class.
+2. `testStartDrag`: Tests the drag functionality of the slingshot.
+3. `testRelease`: Validates the release mechanism and position reset.
+4. `testDispose`: Ensures the `dispose` method executes without errors.
+
+---
+
+### **PigTest**
+1. `testInitialization`: Tests the initialization of the `Pig` object.
+2. `testGetHealth`: Validates the default health value.
+3. `testDestroySelf`: Verifies the destruction behavior.
+4. `testGetMass`: Checks the mass of the pig body.
+5. `testGetDensity`: Validates the density of the pig body.
+
+---
+
+### **BoxTest**
+1. `testInitialization`: Tests the initialization of the `Box` object.
+2. `testGetHealth`: Validates the default health value.
+3. `testDestroySelf`: Verifies the destruction behavior.
+4. `testGetMass`: Checks the mass of the box body.
+5. `testGetDensity`: Validates the density of the box body.
+
+---
+
+### **BirdTest**
+1. `testInitialization`: Tests the initialization of the `Bird` object.
+2. `testSpecialFeature`: Verifies the activation and usage of the special feature.
+3. `testGetHealth`: Validates the default health value.
+4. `testDestroySelf`: Verifies the destruction behavior.
+5. `testGetMass`: Checks the mass of the bird body.
+6. `testGetDensity`: Validates the density of the bird body.
+
+---
+
 ## 📷 **Screenshots**
 *(Include screenshots of gameplay and menu screens here.)*
 
