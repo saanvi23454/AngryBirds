@@ -67,7 +67,7 @@ Once upon a time, a peaceful bird kingdom was disrupted by cunning pigs who stol
 
 ---
 
-## 🧪 **JUnit Testing Structure**
+## 🧪 **JUnit Testing**
 
 ### **SlingTest**
 1. `testSingletonInstance`: Verifies the singleton behavior of the `Slingshot` class.
@@ -99,7 +99,7 @@ Once upon a time, a peaceful bird kingdom was disrupted by cunning pigs who stol
    
 ---
 
-## 🎮 **Design Patterns Used**
+## 🎮 **Design Patterns**
 
 ### 1. **Singleton Pattern**
    - **Class Involved**: `Slingshot`
@@ -113,7 +113,7 @@ Once upon a time, a peaceful bird kingdom was disrupted by cunning pigs who stol
        - Prevents multiple instances from being created, thus saving resources.
 
 ### 2. **Factory Method Pattern**
-   - **Classes Involved**: `Pig`, `Box`, `Bird`, and their `Test` classes
+   - **Classes Involved**: `Pig`, `Box`, `Bird`
    - **Description**: 
      The **Factory Method Pattern** is used to create objects without specifying the exact class of the object that will be created. This pattern allows for more flexibility, as subclasses can modify or extend the creation process.
      
