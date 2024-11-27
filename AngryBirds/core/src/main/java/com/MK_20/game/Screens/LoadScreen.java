@@ -79,14 +79,16 @@ public class LoadScreen implements Screen {
 
                     //clearing the boxes.
                     for (Box b: playScreen.level.levelCreator.boxes){
+                        System.out.println(b.body.getPosition().x+" "+b.body.getPosition().y);
                         playScreen.world.destroyBody(b.body);
                     }
                     playScreen.level.levelCreator.boxes.clear();
 
                     //adding the boxes.
-                    System.out.println("boxes: "+data.boxes.size());
+//                    System.out.println("boxes: "+data.boxes.size());
                     for (Box b: data.boxes){
-                        Rectangle rectangle=new Rectangle(b.x,b.y,b.width,b.height);
+//                        System.out.println("x: "+b.x*AngryBirds.PPM+" y:"+b.y*AngryBirds.PPM+"width: "+b.width+"height: "+b.height);
+                        Rectangle rectangle=new Rectangle((b.x)*AngryBirds.PPM-b.width/2,(b.y)*AngryBirds.PPM-b.height/2,b.width,b.height);
                         playScreen.level.levelCreator.boxes.add(Box.createBox(playScreen.world,playScreen.getTiledmap(),rectangle,playScreen.level.levelCreator, b));
                     }
 
@@ -96,9 +98,10 @@ public class LoadScreen implements Screen {
                     }
                     playScreen.level.levelCreator.birds.clear();
                     //adding the birds.
+//                    System.out.println("Birds: "+data.birds.size());
                     for (Bird b: data.birds){
-                        System.out.println("x: "+b.x+" y:"+b.y);
-                        Ellipse ellipse=new Ellipse(b.x, b.y, b.width, b.height);
+//                        System.out.println("x: "+b.x+" y:"+b.y);
+                        Ellipse ellipse=new Ellipse((b.x*AngryBirds.PPM)-(b.width/2), (b.y*AngryBirds.PPM)-(b.height/2), b.width, b.height);
                         playScreen.level.levelCreator.birds.add(Bird.createBird(playScreen.world,playScreen.getTiledmap(),ellipse,playScreen.level.levelCreator,b));
                     }
 
@@ -108,8 +111,7 @@ public class LoadScreen implements Screen {
                     playScreen.level.levelCreator.thrownBirds.clear();
                     //adding the birds.
                     for (Bird b: data.thrownBirds){
-                        System.out.println("x: "+b.x+" y:"+b.y);
-                        Ellipse ellipse=new Ellipse(b.x, b.y, b.width, b.height);
+                        Ellipse ellipse=new Ellipse((b.x*AngryBirds.PPM)-(b.width/2), (b.y*AngryBirds.PPM)-(b.height/2), b.width, b.height);
                         playScreen.level.levelCreator.thrownBirds.add(Bird.createBird(playScreen.world,playScreen.getTiledmap(),ellipse,playScreen.level.levelCreator,b));
                     }
 
@@ -121,7 +123,7 @@ public class LoadScreen implements Screen {
                     //adding the pigs.
                     for (Pig p:data.pigs) {
                         //change implementation
-                        Ellipse e=new Ellipse(p.x, p.y, p.width, p.height);
+                        Ellipse e=new Ellipse((p.x*AngryBirds.PPM)-(p.width/2), (p.y*AngryBirds.PPM)-(p.height/2), p.width, p.height);
                         playScreen.level.levelCreator.pigs.add(Pig.createPig(playScreen.world, playScreen.getTiledmap(), e,playScreen.level.levelCreator, p));
                     }
 
