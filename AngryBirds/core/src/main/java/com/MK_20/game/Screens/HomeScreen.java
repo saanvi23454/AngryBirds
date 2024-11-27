@@ -1,10 +1,9 @@
 package com.MK_20.game.Screens;
 
 import com.MK_20.game.AngryBirds;
-import com.MK_20.game.Tools.SavedData;
+import com.MK_20.game.Tools.Data;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,7 +21,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
-import java.util.logging.FileHandler;
 
 public class HomeScreen implements Screen {
 
@@ -36,6 +34,7 @@ public class HomeScreen implements Screen {
     private Texture levelBg;
 
     private ImageButton settings;
+    private TextButton randomButton;
     private ArrayList<TextButton> levelButtons;
 
     public HomeScreen(AngryBirds game) {
@@ -74,14 +73,15 @@ public class HomeScreen implements Screen {
                     try {
                         String savePath = AngryBirds.SAVEPATH;
                         Json json = new Json();
-                        SavedData data = json.fromJson(SavedData.class, Gdx.files.local(savePath).readString());
-                        if (data.levelIndex==finalI) {
-                            game.setScreen(game.loadScreen);
-                        }
-                        else{
-                            game.currentLevel=new PlayScreen(game,game.currentLevelIndex);
-                            game.setScreen(game.currentLevel);
-                        }
+                        Data data = json.fromJson(Data.class, Gdx.files.local(savePath).readString());
+
+                       if (data.levelIndex==game.currentLevelIndex) {
+                           game.setScreen(game.loadScreen);
+                       }
+                       else {
+                           game.currentLevel = new PlayScreen(game, game.currentLevelIndex);
+                           game.setScreen(game.currentLevel);
+                       }
                     }
                     catch (Exception e) {
                         game.currentLevel=new PlayScreen(game,game.currentLevelIndex);
@@ -96,6 +96,34 @@ public class HomeScreen implements Screen {
             }
         }
         stage.addActor(levelsTable);
+
+        randomButton=new TextButton("Random",style);
+        randomButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                int randomIndex = 1 + (int) (Math.random() * game.totalLevels); // Generate a random level index between 1 and totalLevels
+                System.out.println("Random Level " + randomIndex + " Clicked");
+                game.currentLevelIndex = randomIndex;
+                try {
+                    String savePath = AngryBirds.SAVEPATH;
+                    Json json = new Json();
+                    Data data = json.fromJson(Data.class, Gdx.files.local(savePath).readString());
+
+                    if (data.levelIndex==game.currentLevelIndex) {
+                        game.setScreen(game.loadScreen);
+                    }
+                    else {
+                        game.currentLevel = new PlayScreen(game, game.currentLevelIndex);
+                        game.setScreen(game.currentLevel);
+                    }
+                }
+                catch (Exception e) {
+                    game.currentLevel=new PlayScreen(game,game.currentLevelIndex);
+                    game.setScreen(game.currentLevel);
+                }
+            }
+        });
+
 
 
         settings = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("settings.png"))));
@@ -114,6 +142,15 @@ public class HomeScreen implements Screen {
         optionsTable.bottom().left();
         optionsTable.add(settings).size(40,40).padTop(50).expandX().bottom().left();  // Add the settings button in the bottom-left corner
         stage.addActor(optionsTable);
+
+        Table randomLevelTable = new Table();
+        randomLevelTable.setFillParent(true);
+        randomLevelTable.padRight(20);
+        randomLevelTable.padBottom(20);
+        randomLevelTable.bottom().right(); // Align to bottom-right corner
+
+        randomLevelTable.add(randomButton).size(150, 50).padTop(20); // Set size and padding
+        stage.addActor(randomLevelTable); // Add the table to the stage
 
     }
 

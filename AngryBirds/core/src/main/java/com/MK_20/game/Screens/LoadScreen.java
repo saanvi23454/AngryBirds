@@ -2,20 +2,21 @@ package com.MK_20.game.Screens;
 
 import com.MK_20.game.AngryBirds;
 import com.MK_20.game.Sprites.Bird;
+import com.MK_20.game.Sprites.Box;
 import com.MK_20.game.Sprites.Pig;
-import com.MK_20.game.Tools.SavedData;
+import com.MK_20.game.Tools.Data;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Json;
@@ -64,43 +65,73 @@ public class LoadScreen implements Screen {
             }
         });
 
-        //right now, load button will also restart the game
         loadButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 try {
                     String savePath = AngryBirds.SAVEPATH;
                     Json json = new Json();
-                    SavedData data = json.fromJson(SavedData.class, Gdx.files.local(savePath).readString());
+                    Data data = json.fromJson(Data.class, Gdx.files.local(savePath).readString());
 
                     // Reconstruct the level
                     PlayScreen playScreen = new PlayScreen(game, data.levelIndex);
                     game.currentLevel = playScreen;
 
-                    //clearing the birds.
-                    for (Bird b: playScreen.level.birds){
+                    //clearing the boxes.
+                    for (Box b: playScreen.level.levelCreator.boxes){
                         playScreen.world.destroyBody(b.body);
                     }
-                    playScreen.level.birds.clear();
+                    playScreen.level.levelCreator.boxes.clear();
+
+                    //adding the boxes.
+                    System.out.println("boxes: "+data.boxes.size());
+                    for (Box b: data.boxes){
+                        Rectangle rectangle=new Rectangle(b.x,b.y,b.width,b.height);
+                        playScreen.level.levelCreator.boxes.add(Box.createBox(playScreen.world,playScreen.getTiledmap(),rectangle,playScreen.level.levelCreator, b));
+                    }
+
+                    //clearing the birds.
+                    for (Bird b: playScreen.level.levelCreator.birds){
+                        playScreen.world.destroyBody(b.body);
+                    }
+                    playScreen.level.levelCreator.birds.clear();
                     //adding the birds.
                     for (Bird b: data.birds){
-                        playScreen.level.birds.add(Bird.createBird(playScreen.world, b));
+                        System.out.println("x: "+b.x+" y:"+b.y);
+                        Ellipse ellipse=new Ellipse(b.x, b.y, b.width, b.height);
+                        playScreen.level.levelCreator.birds.add(Bird.createBird(playScreen.world,playScreen.getTiledmap(),ellipse,playScreen.level.levelCreator,b));
+                    }
+
+                    for (Bird b: playScreen.level.levelCreator.thrownBirds){
+                        playScreen.world.destroyBody(b.body);
+                    }
+                    playScreen.level.levelCreator.thrownBirds.clear();
+                    //adding the birds.
+                    for (Bird b: data.thrownBirds){
+                        System.out.println("x: "+b.x+" y:"+b.y);
+                        Ellipse ellipse=new Ellipse(b.x, b.y, b.width, b.height);
+                        playScreen.level.levelCreator.thrownBirds.add(Bird.createBird(playScreen.world,playScreen.getTiledmap(),ellipse,playScreen.level.levelCreator,b));
                     }
 
                     //clearing out the pigs.
-                    for (Pig p: playScreen.level.pigs) {
+                    for (Pig p: playScreen.level.levelCreator.pigs) {
                         playScreen.world.destroyBody(p.body);
                     }
-                    playScreen.level.pigs.clear();
+                    playScreen.level.levelCreator.pigs.clear();
                     //adding the pigs.
-                    for (int i=0; i<data.pigs.size(); i++) {
-                        Pig p=new Pig(playScreen.world,data.pigs.get(i));
-                        playScreen.level.pigs.add(p);
+                    for (Pig p:data.pigs) {
+                        //change implementation
+                        Ellipse e=new Ellipse(p.x, p.y, p.width, p.height);
+                        playScreen.level.levelCreator.pigs.add(Pig.createPig(playScreen.world, playScreen.getTiledmap(), e,playScreen.level.levelCreator, p));
                     }
 
-                    game.setScreen(playScreen);
+                    playScreen.level.afterSaving();
+
+                    game.setScreen(game.currentLevel);
                 } catch (Exception e) {
                     System.out.println("Error loading game: " + e.getMessage());
+                    game.currentLevel = new PlayScreen(game, game.currentLevelIndex);
+                    game.setScreen(game.currentLevel);
                 }
             }
         });

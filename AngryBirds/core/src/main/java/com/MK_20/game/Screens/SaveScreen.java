@@ -1,8 +1,7 @@
 package com.MK_20.game.Screens;
 
 import com.MK_20.game.AngryBirds;
-import com.MK_20.game.Sprites.Bird;
-import com.MK_20.game.Tools.SavedData;
+import com.MK_20.game.Tools.Data;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -15,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -39,8 +37,6 @@ public class SaveScreen implements Screen {
         stage = new Stage(viewport);
 
         background = new Texture("loadScreenBG.png");
-//        loadFromPrev = new Texture("loadButton.png");
-//        restart = new Texture("restartButton.png");
         saveButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("saveGameButton.png"))));
         quitButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("quitButton.png"))));
 
@@ -50,7 +46,6 @@ public class SaveScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("quit button clicked");
-                //functionality ?
                 game.setScreen(game.homeScreen);
             }
         });
@@ -60,25 +55,8 @@ public class SaveScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("save button clicked");
-                //functionality for serialization
-                SavedData data=new SavedData();
-
-                //birds and pigs
-                data.birds.addAll(game.currentLevel.level.birds);
-                data.pigs.addAll(game.currentLevel.level.pigs);
-                data.levelIndex= game.currentLevelIndex;
-
-                //Serializing to file.
-                try{
-                    Json json = new Json();
-                    String savePath = AngryBirds.SAVEPATH;
-                    Gdx.files.local(savePath).writeString(json.toJson(data), false);
-                    System.out.println("game saved in: " + savePath);
-                    game.setScreen(game.homeScreen);
-                }
-                catch (Exception e){
-                    e.printStackTrace();
-                }
+                Data data=new Data(game.currentLevel.level);
+                game.setScreen(game.homeScreen);
             }
         });
 

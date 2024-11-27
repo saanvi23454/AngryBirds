@@ -1,6 +1,7 @@
 package com.MK_20.game.Screens;
 
 import com.MK_20.game.AngryBirds;
+import com.MK_20.game.Tools.Data;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -13,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -54,14 +56,31 @@ public class WonScreen implements Screen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 System.out.println("next button clicked");
-                if (game.totalLevels==game.currentLevel.index || game.currentLevel.index==1){       //only for now the or statement.
+                if (game.totalLevels==game.currentLevelIndex){       //only for now the or statement.
                     System.out.println("You have cleared the last level.");
                     game.setScreen(game.homeScreen);
                 }
                 else{
                     game.currentLevelIndex += 1; //CHECK
-                    game.currentLevel = new PlayScreen(game,game.currentLevel.index+1);
-                    game.setScreen(game.currentLevel);
+                    try {
+                        String savePath = AngryBirds.SAVEPATH;
+                        Json json = new Json();
+                        Data data = json.fromJson(Data.class, Gdx.files.local(savePath).readString());
+                        System.out.println("data: "+data.levelIndex+" curr: "+game.currentLevelIndex);
+                        if (data.levelIndex==game.currentLevelIndex) {
+                            System.out.println("Saved Level");
+                            game.setScreen(game.loadScreen);
+                        }
+                        else {
+                            System.out.println("Unsaved Level");
+                            game.currentLevel = new PlayScreen(game, game.currentLevelIndex);
+                            game.setScreen(game.currentLevel);
+                        }
+                    }
+                    catch (Exception e) {
+                        game.currentLevel=new PlayScreen(game,game.currentLevelIndex);
+                        game.setScreen(game.currentLevel);
+                    }
                 }
             }
         });

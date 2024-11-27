@@ -31,7 +31,7 @@ public class FailedScreen implements Screen {
         viewport = new FitViewport(AngryBirds.WIDTH, AngryBirds.HEIGHT, camera);
         stage = new Stage(viewport);
 
-        background = new Texture("lostBG.png");
+        background = new Texture("lostBG2.png");
         restartButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("restart.png"))));
         homeButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("homeButton.png"))));
         restartButton.addListener(new ClickListener() {

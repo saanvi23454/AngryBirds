@@ -50,41 +50,81 @@ public class WorldContactListener implements ContactListener {
         else if (userDataA instanceof Box && userDataB instanceof Pig){
             onBoxHitsPig((Box) userDataA, (Pig) userDataB, relativeVelocity);
         }
-
         else if (userDataA instanceof Bird && userDataB instanceof Box){
             onBirdHitsBox((Bird) userDataA, (Box) userDataB, relativeVelocity);
         }
         else if (userDataB instanceof Bird && userDataA instanceof Box){
             onBirdHitsBox((Bird) userDataB, (Box) userDataA, relativeVelocity);
         }
+        else if (userDataB instanceof Box && userDataA instanceof Box){
+            onBoxHitsBox((Box) userDataB, (Box) userDataA, relativeVelocity);
+        }
+        else if (userDataA.equals("GROUND") && userDataB instanceof Pig){
+            onPigHitsGround((Pig) userDataB, relativeVelocity);
+        }
+        else if (userDataB.equals("GROUND") && userDataA instanceof Pig) {
+            onPigHitsGround((Pig) userDataA, relativeVelocity);
+        }
     }
 
     private void onBirdHitsBox(Bird bird, Box box, float relativeVelocity) {
-        float boxDensity = bird.getWeight();
+//        box.body.applyTorque(-50f, true);
+
+        float boxDensity = bird.getMass();
         float damage = calculateDamage(relativeVelocity, boxDensity)*0.01f;
 
         box.health -= damage;
+        bird.health -= damage;
+
         if (box.health <= 0 && !box.isDestroyed){
-            box.markAsDestroyed();}
+            box.destroyAfterDelay(0.1f);
+        }
+        if (bird.health <= 0 && !bird.isDestroyed) {
+            bird.destroyAfterDelay(5f);
+        }
     }
 
     private void onBirdHitsPig(Bird bird, Pig pig) {
         // Define what happens when a bird hits a pig
-        System.out.println("Bird collided with Pig!");
-        pig.markAsDestroyed();
+//        System.out.println("Bird collided with Pig!");
+        if (!pig.isDestroyed) {
+            pig.destroyAfterDelay(0.1f);
+        }
+        if (!bird.isDestroyed) {
+            bird.destroyAfterDelay(5f);
+        }
     }
 
     private void onBoxHitsPig(Box box, Pig pig, float relativeVelocity){
-        float boxDensity = box.getDensity();
-        float damage = calculateDamage(relativeVelocity, boxDensity);
+        float boxDensity = box.getMass();
+        float damage = calculateDamage(relativeVelocity, boxDensity)*0.001f;
         pig.health -= damage;
         box.health -= damage;
-        System.out.println("Pig health: " + pig.health);
 
         if (pig.health <= 0 && !pig.isDestroyed) {
-            pig.markAsDestroyed();}
+            pig.destroyAfterDelay(0.1f);}
         if (box.health <= 0 && !box.isDestroyed){
-            box.markAsDestroyed();}
+            box.destroyAfterDelay(0.1f);}
+    }
+
+    private void onBoxHitsBox(Box box1, Box box2, float relativeVelocity){
+        float boxDensity = box1.getMass();
+        float damage = calculateDamage(relativeVelocity, boxDensity)*0.0001f;
+        box1.health -= damage;
+        box2.health -= damage;
+
+        if (box1.health <= 0 && !box1.isDestroyed) {
+            box1.destroyAfterDelay(0.1f);}
+        if (box2.health <= 0 && !box2.isDestroyed){
+            box2.destroyAfterDelay(0.1f);}
+    }
+
+    private void onPigHitsGround(Pig pig, float relativeVelocity){
+        float damage = calculateDamage(relativeVelocity, 10)*0.01f;
+        pig.health -= damage;
+
+        if (pig.health <= 0 && !pig.isDestroyed) {
+            pig.destroyAfterDelay(0.2f);}
     }
 
     private float calculateRelativeVelocity(Contact contact) {

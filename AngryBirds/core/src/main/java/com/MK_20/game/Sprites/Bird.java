@@ -1,122 +1,93 @@
 package com.MK_20.game.Sprites;
 
 import com.MK_20.game.AngryBirds;
+import com.MK_20.game.Levels.Level;
+import com.MK_20.game.Tools.LevelCreator;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.math.Ellipse;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
-public abstract class Bird extends Sprite implements Json.Serializable{
+public abstract class Bird extends InteractiveTileObject{
 
-    //Transient so that it does not serialize
-    public transient World world;
-    public transient Body body;
-    public transient Texture bird_texture;
-
-    public float x, y, width, height, radius; // Serializable fields
-    public String texturePath;
-
-    public boolean isDestroyed = false;
+    protected boolean specialFeatureUsed;
 
     public Bird(){}
 
-    public Bird(World world, float x, float y, float width, float height, float radius, Texture bird_texture, String texturePath) {
-        super(bird_texture);
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.radius = radius;
-        this.texturePath=texturePath;
-        this.bird_texture = bird_texture;
-        this.world = world;
-        defineBird(x, y, radius);
-        setSize(width,height);
-    }
+    public Bird(World world, TiledMap tiledmap, Ellipse bounds, LevelCreator levelCreator, String s) {
+        super(world, tiledmap, bounds, levelCreator);
 
-    public static Bird createBird(World world, Bird b) {
-        if (b.texturePath.equals("redBird.png")) {
-            return new RedBird(world, b.x, b.y, b.width, b.height, b.radius); // RedBird subclass
-        }
-        else if (b.texturePath.equals("blueBird.png")){
-            return new BlueBird(world, b.x, b.y, b.width, b.height, b.radius); // BlueBird subclass
-        }
-        else if (b.texturePath.equals("yellowBird.png")){
-            return new YellowBird(world, b.x, b.y, b.width, b.height, b.radius); // YellowBird subclass
-        }
-        else if (b.texturePath.equals("toucanetBird.png")){
-            return new ToucanetBird(world, b.x, b.y, b.width, b.height, b.radius); // ToucanetBird subclass
-        }
-        else if (b.texturePath.equals("chickenBird.png")){
-            return new ChickenBird(world, b.x, b.y, b.width, b.height, b.radius); // ChickenBird subclass
-        }
-        else if (b.texturePath.equals("bombBird.png")){
-            return new BombBird(world, b.x, b.y, b.width, b.height, b.radius); // BombBird subclass
-        }
-        // For now, return a RedBird if texturePath doesn't match
-        return new RedBird(world, b.x, b.y, b.width, b.height, b.radius);
-    }
+        this.health = 50;
+        this.specialFeatureUsed = false;
 
+        this.sprite = new Sprite(new TextureRegion(new Texture(s)));
+        // Set the size of the sprite to match the physical body
+        sprite.setSize(bounds.width / AngryBirds.PPM, bounds.height / AngryBirds.PPM);
+        sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
 
-    public void defineBird(float x, float y, float radius) {
+        // Set the position of the sprite to match the physics body
+        sprite.setPosition(bounds.x / AngryBirds.PPM, bounds.y / AngryBirds.PPM);
         BodyDef bodyDef = new BodyDef();
-        bodyDef.position.set(x,y);
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        body = world.createBody(bodyDef);
-
         FixtureDef fixtureDef = new FixtureDef();
-        CircleShape circleShape = new CircleShape();
-        circleShape.setRadius(radius);
-        fixtureDef.shape = circleShape;
+        fixtureDef.density = 0.5f;
+        fixtureDef.friction = 0.4f;
+        fixtureDef.restitution = 0.1f;
+
+//        fixtureDef.filter.categoryBits = AngryBirds.CATEGORY_BIRD;
+//        fixtureDef.filter.maskBits = AngryBirds.MASK_BIRD;
+
+        CircleShape shape = new CircleShape();
+
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        bodyDef.position.set((bounds.x+(bounds.width/2)) / AngryBirds.PPM, (bounds.y+(bounds.height/2)) / AngryBirds.PPM);
+
+        body = world.createBody(bodyDef);
+        shape.setRadius(bounds.width/2 / AngryBirds.PPM);
+        fixtureDef.shape = shape;
         Fixture fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);
     }
 
-    public void update(float delta) {
-        this.x=body.getPosition().x;
-        this.y=body.getPosition().y;
-        setPosition(body.getPosition().x-getWidth()/2, body.getPosition().y-getHeight()/2);
-    }
-
-    public void dispose() {
-        if (body != null) {
-            world.destroyBody(body); // Safely remove the body from the world
-            body = null;
-        }
-    }
-
     @Override
-    public void write(Json json) {
-        // Save serializable fields
-        json.writeValue("x", x);
-        json.writeValue("y", y);
-        json.writeValue("width", width);
-        json.writeValue("height", height);
-        json.writeValue("radius", radius);
-        json.writeValue("texturePath", texturePath);
-        json.writeValue("isDestroyed", isDestroyed);
+    protected void destroySelf(){
+        world.destroyBody(body);
+        levelCreator.thrownBirds.remove(this);
+        isTotallyDestroyed = true;
     }
 
-    @Override
-    public void read(Json json, JsonValue jsonData) {
-        try {
-            // Load serializable fields
-            x = json.readValue("x", Float.class, jsonData);
-            y = json.readValue("y", Float.class, jsonData);
-            width = json.readValue("width", Float.class, jsonData);
-            height = json.readValue("height", Float.class, jsonData);
-            radius = json.readValue("radius", Float.class, jsonData);
-            texturePath = json.readValue("texturePath", String.class, jsonData);
-            isDestroyed = json.readValue("isDestroyed", boolean.class, jsonData);
-        }
-        catch (Exception e) {
-            System.out.println("Error deserializing bird: " + e.getMessage());
-        }
+    public void specialFeature(){}
+
+    private static void helper(Bird b, Bird bi){
+        b.health=bi.health;
+        b.isDestroyed=bi.isDestroyed;
+        b.isTotallyDestroyed=bi.isTotallyDestroyed;
     }
 
-    public float getWeight(){
-        return 0.01f;
+    public static Bird createBird(World world, TiledMap map, Ellipse ellipse,LevelCreator levelCreator, Bird bi) {
+        Bird b=null;
+        switch (bi.type) {
+            case 1:
+                b=new RedBird(world,map,ellipse,levelCreator);
+                helper(b,bi);
+                break;
+            case 2:
+                b=new BlueBird(world,map,ellipse,levelCreator);
+                helper(b,bi);
+                break;
+            case 3:
+                b=new ChickenBird(world,map,ellipse, levelCreator);
+                helper(b,bi);
+                break;
+            case 4:
+                b=new ToucanetBird(world,map, ellipse, levelCreator);
+                helper(b,bi);
+                break;
+        }
+        return b;
     }
 }

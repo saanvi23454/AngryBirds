@@ -2,38 +2,30 @@ package com.MK_20.game.Screens;
 
 import com.MK_20.game.AngryBirds;
 import com.MK_20.game.Levels.Level;
-import com.MK_20.game.Levels.Level1;
-import com.MK_20.game.Sprites.Pig;
-import com.MK_20.game.Sprites.RedBird;
+import com.MK_20.game.Sprites.Slingshot;
 import com.MK_20.game.Tools.LevelCreator;
 import com.MK_20.game.Tools.WorldContactListener;
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import dev.lyze.gdxUnBox2d.Box2dWorldContactListener;
 
-public class PlayScreen implements Screen {
+public class PlayScreen implements Screen, InputProcessor {
 
     private AngryBirds game;
     private OrthographicCamera camera;
@@ -49,20 +41,10 @@ public class PlayScreen implements Screen {
     private Box2DDebugRenderer debugRenderer;
     public int index;
 
-    private ImageButton sling;
+    public Level level;
 
-    Level level;
-
-    private Level loadLevel(int index) {
-        switch (index) {
-            case 1:
-                return new Level1(world);
-            case 2:
-//                return new Level2(world);
-            case 3:
-//                return new Level3(world);
-        }
-        return null;
+    public TiledMap getTiledmap() {
+        return tiledmap;
     }
 
     public PlayScreen(AngryBirds game, int index) {
@@ -73,9 +55,8 @@ public class PlayScreen implements Screen {
         stage = new Stage(viewport);
         viewport.apply();
 
-
         maploader = new TmxMapLoader();
-        tiledmap = maploader.load("levels/Level"+index+"/level"+index+".tmx");
+        tiledmap = maploader.load("levels/Level1/level"+index+".tmx");
         renderer = new OrthogonalTiledMapRenderer(tiledmap, 0.45f);
 
 //        camera.position.set(viewport.getWorldWidth() / 2, viewport.getWorldHeight() / 2, 0);
@@ -90,22 +71,28 @@ public class PlayScreen implements Screen {
             }
         });
 
-        sling = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("sling.png"))));
+//        sling = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("sling.png"))));
 
         Table table = new Table();
         table.top().left().padLeft(10).padTop(10);
         table.setFillParent(true);
         table.add(pauseButton).size(50,50);
-        table.add(sling).size(60,140);
+//        table.add(sling).size(60,140);
         stage.addActor(table);
 
         world = new World(new Vector2(0,-10), true);
+//        for (int i = 0; i < 4; i++) {
+//            world.step(1 / 60f, 6, 2); // Default values are 6 velocity and 2 position iterations
+//        }
+//        world.setGravity(new Vector2(0,-20f));
+
         debugRenderer = new Box2DDebugRenderer();
 
-        world.setContactListener(new WorldContactListener());
-
-        new LevelCreator(world, tiledmap);
-        level = loadLevel(index);
+//        slingshot = new Slingshot(world, 330f, 85f);
+        LevelCreator l = new LevelCreator(world, tiledmap);
+        level = new Level(l);
+//        level.setBird(slingshot);
+//        level.addWoods(l.getWoods());
     }
 
     public void handleInput(float delta) {
@@ -116,24 +103,16 @@ public class PlayScreen implements Screen {
             game.setScreen(game.failed);
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)){
-            level.birds.get(1).body.applyLinearImpulse(new Vector2(0,300f),level.birds.get(1).body.getWorldCenter(), true);
+            level.levelCreator.birds.get(1).body.applyLinearImpulse(new Vector2(0,50f),level.levelCreator.birds.get(1).body.getWorldCenter(), true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && level.birds.get(1).body.getLinearVelocity().x <= 2){
-            level.birds.get(1).body.applyLinearImpulse(new Vector2(300f,0),level.birds.get(1).body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) && level.levelCreator.birds.get(1).body.getLinearVelocity().x <= 2){
+            level.levelCreator.birds.get(1).body.applyLinearImpulse(new Vector2(50f,0),level.levelCreator.birds.get(1).body.getWorldCenter(), true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && level.birds.get(1).body.getLinearVelocity().x >= -2){
-            level.birds.get(1).body.applyLinearImpulse(new Vector2(-300f,0),level.birds.get(1).body.getWorldCenter(), true);
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT) && level.levelCreator.birds.get(1).body.getLinearVelocity().x >= -2){
+            level.levelCreator.birds.get(1).body.applyLinearImpulse(new Vector2(-50f,0),level.levelCreator.birds.get(1).body.getWorldCenter(), true);
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN) && level.birds.get(1).body.getLinearVelocity().x >= -2){
-            level.birds.get(1).body.applyLinearImpulse(new Vector2(0f,-300),level.birds.get(1).body.getWorldCenter(), true);
-        }
-        if (Gdx.input.justTouched()){
-            System.out.println(level.birds.get(1).body.getPosition().x);
-            System.out.println(level.birds.get(1).body.getPosition().y);
-            System.out.println("Window width: "+Gdx.graphics.getWidth());
-            System.out.println("World width: "+viewport.getWorldWidth());
-//            System.out.println(10000*delta);
-//            camera.position.x+=(10000*delta);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            level.handleSpecialFeature();
         }
     }
 
@@ -151,12 +130,16 @@ public class PlayScreen implements Screen {
         renderer.setView(camera);
         pauseButton.setPosition(camera.position.x - viewport.getWorldWidth() / 2 + 10, camera.position.y + viewport.getWorldHeight() / 2 - 60);
 
-        sling.setPosition(474.0f, 62.0f);
+//        sling.setPosition(474.0f, 62.0f);
+        world.setContactListener(new WorldContactListener());
     }
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage);
+        InputMultiplexer multiplexer = new InputMultiplexer();
+        multiplexer.addProcessor(this); // Add PlayScreen as the first processor
+        multiplexer.addProcessor(stage); // Add stage as the second processor
+        Gdx.input.setInputProcessor(multiplexer);
     }
 
     @Override
@@ -171,6 +154,10 @@ public class PlayScreen implements Screen {
 
         //box 2D debug lines.
         debugRenderer.render(world, camera.combined);
+
+
+//slingshot
+        level.levelCreator.slingshot.renderTrajectory(camera, level.currentBird);
 
         game.batch.setProjectionMatrix(camera.combined);
         //First the stage so that sling comes behind any bird.
@@ -207,5 +194,61 @@ public class PlayScreen implements Screen {
         world.dispose();
         debugRenderer.dispose();
         stage.dispose();
+    }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int x, int y, int pointer, int button) {
+    Vector2 coords = viewport.unproject(new Vector2(x, y));
+
+        if (coords.y > 900/AngryBirds.PPM) {
+            return false;
+        }
+        Vector2 velocity = level.levelCreator.slingshot.launchVelocity();
+        level.releaseBird(velocity, level.levelCreator.slingshot);
+        level.levelCreator.slingshot.release();
+        return false;
+    }
+
+    @Override
+    public boolean touchCancelled(int screenX, int screenY, int pointer, int button) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int x, int y, int pointer) {
+        Gdx.app.log("Input", "Dragging");
+        level.levelCreator.slingshot.startDrag(x,y);
+        level.levelCreator.slingshot.updateDrag(x, y);
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
     }
 }
