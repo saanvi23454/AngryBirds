@@ -128,7 +128,6 @@ Once upon a time, a peaceful bird kingdom was disrupted by cunning pigs who stol
 
 ## 📷 **Screenshots**
 *(Include screenshots of gameplay and menu screens here.)*
-![image](https://github.com/user-attachments/assets/2b42084e-679a-44c5-8611-c53bdb0b01f8)
 
 ---
 
