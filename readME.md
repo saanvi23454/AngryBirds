@@ -99,6 +99,33 @@ Once upon a time, a peaceful bird kingdom was disrupted by cunning pigs who stol
    
 ---
 
+## 🎮 **Design Patterns Used**
+
+### 1. **Singleton Pattern**
+   - **Class Involved**: `Slingshot`
+   - **Description**: 
+     The **Singleton Pattern** is used to ensure that only one instance of the `Slingshot` class exists throughout the lifetime of the game. This is important because we want to maintain a single point of interaction for the slingshot mechanism during the gameplay.
+     
+     The singleton pattern ensures that the `Slingshot` instance is created lazily and only once. Subsequent calls to the `getInstance()` method will return the same instance.
+     
+   - **Benefits**: 
+       - Ensures global access to the slingshot instance.
+       - Prevents multiple instances from being created, thus saving resources.
+
+### 2. **Factory Method Pattern**
+   - **Classes Involved**: `Pig`, `Box`, `Bird`, and their `Test` classes
+   - **Description**: 
+     The **Factory Method Pattern** is used to create objects without specifying the exact class of the object that will be created. This pattern allows for more flexibility, as subclasses can modify or extend the creation process.
+     
+     In this project, the creation of different game entities (such as `Pig`, `Box`, `Bird`) is done via constructor methods, which are treated as a form of the factory method. This allows you to extend the system with new types of entities easily, without modifying existing code.
+     
+   - **Benefits**:
+       - Enables creating new types of entities in a flexible manner.
+       - Decouples the object creation process from the main gameplay logic, promoting clean and maintainable code.
+       - Facilitates easy extension for new types of entities in the future (e.g., different types of pigs or birds).
+
+---
+
 ## 📷 **Screenshots**
 *(Include screenshots of gameplay and menu screens here.)*
 
