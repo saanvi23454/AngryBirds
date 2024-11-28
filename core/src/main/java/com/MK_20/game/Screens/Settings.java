@@ -18,6 +18,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
 public class Settings implements Screen {
 
     AngryBirds game;
@@ -25,7 +28,7 @@ public class Settings implements Screen {
     private Viewport viewport;
 
     private Texture background,musicOff,musicOn;
-    private ImageButton musicState, faq, cross;
+    private ImageButton musicState, reset, cross;
     boolean music = true;
     private Stage stage;
 
@@ -58,7 +61,21 @@ public class Settings implements Screen {
             }
         });
 
-        faq = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("faq.png"))));
+        reset = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("resetButton.png"))));
+        reset.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                System.out.println("reset the game");
+                try{
+                    Files.delete(Paths.get(AngryBirds.SAVEPATH));
+                }
+                catch (Exception e){  }
+
+                game.totalLevels = 1;
+                game.homeScreen = new HomeScreen(game);
+            }
+        });
+
         cross = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("cross.png"))));
         cross.addListener(new ClickListener() {
             @Override
@@ -71,13 +88,13 @@ public class Settings implements Screen {
         crossTable = new Table();
         crossTable.setFillParent(true);
         crossTable.add(cross).size(50,50);
-        crossTable.top().right().padRight(120).padTop(10);
+        crossTable.top().right().padRight(160).padTop(30);
         stage.addActor(crossTable);
 
         table = new Table();
         table.setFillParent(true);
         table.add(musicState).size(100,100).pad(20);
-        table.add(faq).size(100,100).pad(20);
+        table.add(reset).size(100,100).pad(20);
         table.padTop(20);
         stage.addActor(table);
     }
