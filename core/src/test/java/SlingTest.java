@@ -35,7 +35,7 @@ class SlingTest {
     @Test
     void testRelease() {
         // simulate releasing the slingshot
-        slingshot.startDrag(50, 100);
+        slingshot.startDrag();
         slingshot.release();
         assertFalse(slingshot.dragging, "Slingshot should not be in dragging state after release");
         assertEquals(slingshot.top, slingshot.getDragPosition(), "Drag position should reset to the top after release");
