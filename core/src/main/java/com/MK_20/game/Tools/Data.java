@@ -20,6 +20,7 @@ public class Data implements Json.Serializable {
     public ArrayList<Pig> pigs;
     public ArrayList<Bird> thrownBirds;
     public int levelIndex;
+    public int totalLevelsTillNow;
 
     // Default constructor (required for Json)
     public Data(){
@@ -35,6 +36,7 @@ public class Data implements Json.Serializable {
         boxes=level.levelCreator.boxes;
         thrownBirds=level.levelCreator.thrownBirds;
         levelIndex=AngryBirds.game.currentLevelIndex;
+        totalLevelsTillNow=AngryBirds.game.totalLevels;
         try{
             Json json = new Json();
             String savePath = AngryBirds.SAVEPATH;
@@ -55,6 +57,7 @@ public class Data implements Json.Serializable {
         json.writeValue("boxes", boxes);
         json.writeValue("thrownBirds", thrownBirds);
         json.writeValue("levelIndex", levelIndex);
+        json.writeValue("totalLevelsTillNow", totalLevelsTillNow);
     }
 
     @Override
@@ -64,5 +67,6 @@ public class Data implements Json.Serializable {
         boxes=json.readValue("boxes", ArrayList.class,Box.class, jsonData);
         thrownBirds = json.readValue("thrownBirds", ArrayList.class, Bird.class, jsonData);
         levelIndex = json.readValue("levelIndex", int.class, 0, jsonData);
+        totalLevelsTillNow = json.readValue("totalLevelsTillNow", int.class, 0, jsonData);
     }
 }
