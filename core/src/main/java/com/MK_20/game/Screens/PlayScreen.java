@@ -85,7 +85,7 @@ public class PlayScreen implements Screen, InputProcessor {
         table.add(pauseButton).size(50,50);
         stage.addActor(table);
 
-        world = new World(new Vector2(0,-10), true);
+        world = new World(new Vector2(0,-9.8f), true);
 
         debugRenderer = new Box2DDebugRenderer();
 
@@ -224,7 +224,7 @@ public class PlayScreen implements Screen, InputProcessor {
 
     @Override
     public boolean touchUp(int x, int y, int pointer, int button) {
-    Vector2 coords = viewport.unproject(new Vector2(x, y));
+        Vector2 coords = viewport.unproject(new Vector2(x, y));
 
         if (coords.y > 900/AngryBirds.PPM) {
             return false;
@@ -243,7 +243,9 @@ public class PlayScreen implements Screen, InputProcessor {
     @Override
     public boolean touchDragged(int x, int y, int pointer) {
         Gdx.app.log("Input", "Dragging");
-        level.levelCreator.slingshot.startDrag(x,y);
+        if (!level.levelCreator.slingshot.dragging){
+            level.levelCreator.slingshot.startDrag(x,y);
+        }
         level.levelCreator.slingshot.updateDrag(x, y);
         return false;
     }
@@ -257,5 +259,4 @@ public class PlayScreen implements Screen, InputProcessor {
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
-
 }

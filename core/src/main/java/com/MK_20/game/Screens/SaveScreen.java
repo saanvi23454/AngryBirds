@@ -63,13 +63,13 @@ public class SaveScreen implements Screen {
 
         table = new Table();
         table.setFillParent(true);
-        table.align(com.badlogic.gdx.utils.Align.left);
+//        table.align(com.badlogic.gdx.utils.Align.left);
 //        table.defaults().space(3);  // Set 5 units of space between rows
         table.add(saveButton).size(150,150).padTop(-20);
         table.row();
-        table.add(quitButton).size(150,150).padTop(-40);
+        table.add(quitButton).size(150,150).padTop(0);
         table.padTop(11);
-        table.padLeft(160);
+//        table.padLeft(160);
         stage.addActor(table);
     }
 

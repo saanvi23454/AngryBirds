@@ -19,10 +19,12 @@ public class Slingshot{
     private Vector2 dragPosition;
     public boolean dragging;
     public Vector2 top;
+    public Vector2 startPosition;
 
     private Slingshot(float x, float y) {
         top = new Vector2(x/AngryBirds.PPM,y/AngryBirds.PPM);
         dragPosition = new Vector2(top);
+        startPosition = new Vector2(top);
         dragging = false;
         shapeRenderer = new ShapeRenderer();
     }
@@ -37,6 +39,7 @@ public class Slingshot{
     public void startDrag(float x, float y) {
         dragging = true;
         dragPosition.set(x/AngryBirds.PPM, y/AngryBirds.PPM);
+        startPosition.set(dragPosition);
     }
 
     public Vector2 getDragPosition() {
@@ -55,7 +58,7 @@ public class Slingshot{
     }
 
     public Vector2 launchVelocity() {
-        Vector2 direction = top.cpy().sub(dragPosition);
+        Vector2 direction = startPosition.cpy().sub(dragPosition);
         direction.y= -direction.y;
         //direction.y *= (1.5f);
         return direction.scl(1f);
@@ -72,7 +75,7 @@ public class Slingshot{
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        for (float t = 0; t < 5f; t += 0.1f) {
+        for (float t = 0; t < 5f; t += 0.2f) {
             float x = startX + (velocity.x * t);
             float y = startY + (velocity.y * t) + (0.5f * -9.8f * t * t);
 
@@ -99,6 +102,6 @@ public class Slingshot{
     }
     public void startDrag() {
         dragging = true;
-        dragPosition.set(50f, 50f);
+        dragPosition.set(50f,50f);
     }
 }

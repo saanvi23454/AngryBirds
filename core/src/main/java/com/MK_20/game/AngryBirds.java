@@ -7,6 +7,7 @@ import com.MK_20.game.Sprites.Pig;
 import com.MK_20.game.Tools.Data;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Ellipse;
 import com.badlogic.gdx.math.Rectangle;
@@ -31,6 +32,7 @@ public class AngryBirds extends Game {
     public int totalLevels;
     public int currentLevelIndex;
     public static AngryBirds game;
+    public static Music backgroundMusic;
 
 //    public static short CATEGORY_BIRD = 0x0001;
 //    public static short CATEGORY_PIG = 0x0002;
@@ -52,6 +54,11 @@ public class AngryBirds extends Game {
         saveScreen = new SaveScreen(this);
         setScreen(new Start(this));
         game = this;
+
+        backgroundMusic=Gdx.audio.newMusic(Gdx.files.internal("music/angry_birds_piano.mp3"));
+        backgroundMusic.setLooping(true);
+        backgroundMusic.setVolume(0.5f);
+        backgroundMusic.play();
     }
 
     @Override

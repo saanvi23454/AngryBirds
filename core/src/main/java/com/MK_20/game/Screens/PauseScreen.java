@@ -31,10 +31,10 @@ public class PauseScreen implements Screen {
         viewport = new FitViewport(AngryBirds.WIDTH, AngryBirds.HEIGHT, camera);
         stage = new Stage(viewport);
 
-        background = new Texture("pauseBG.png");
-        playButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("play1.png"))));
-        restartButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("restart.png"))));
-        homeButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("homeButton.png"))));
+        background = new Texture("pauseBG2.png");
+        playButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("playButton.png"))));
+        restartButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("replayButton.png"))));
+        homeButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("homeButton2.png"))));
         playButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -60,20 +60,21 @@ public class PauseScreen implements Screen {
         Table table = new Table();
         table.setFillParent(true);
         table.add(playButton).size(75,75);
-        table.left().padLeft(75).padBottom(50);
+        table.left().padLeft(75).padBottom(150);
         stage.addActor(table);
-
-        Table table2 = new Table();
-        table2.setFillParent(true);
-        table2.add(restartButton).size(75,75);
-        table2.left().padLeft(100).padTop(200);
-        stage.addActor(table2);
 
         Table table3 = new Table();
         table3.setFillParent(true);
         table3.add(homeButton).size(80,80);
-        table3.left().padLeft(175).padTop(40);
+        table3.left().padLeft(75).padTop(60);
         stage.addActor(table3);
+
+        Table table2 = new Table();
+        table2.setFillParent(true);
+        table2.add(restartButton).size(75,75);
+        table2.left().padLeft(75).padTop(270);
+        stage.addActor(table2);
+
     }
 
     @Override

@@ -91,7 +91,7 @@ public class HomeScreen implements Screen {
                 }
             });
             levelButtons.add(levelButton);
-            levelsTable.add(levelButton).size(50,50).expandX().padTop(60);
+            levelsTable.add(levelButton).size(70,70).expandX().padTop(160);
             if (i%3==0){
                 levelsTable.row();
             }
@@ -99,11 +99,11 @@ public class HomeScreen implements Screen {
         stage.addActor(levelsTable);
 
 
-        levelBg2 = new Texture("img3.png");
+        levelBg2 = new Texture("randomBG2.png");
         TextButton.TextButtonStyle style2 = new TextButton.TextButtonStyle();
         style2.up = new TextureRegionDrawable(new TextureRegion(levelBg2));
         style2.font = font;
-        randomButton=new TextButton("Random",style2);
+        randomButton=new TextButton("",style2);
 
         randomButton.addListener(new ClickListener() {
             @Override
@@ -152,11 +152,11 @@ public class HomeScreen implements Screen {
 
         Table randomLevelTable = new Table();
         randomLevelTable.setFillParent(true);
-        randomLevelTable.padRight(30);
-        randomLevelTable.padBottom(25);
+        randomLevelTable.padRight(20);
+        randomLevelTable.padBottom(20);
         randomLevelTable.bottom().right(); // Align to bottom-right corner
 
-        randomLevelTable.add(randomButton).size(100, 30).padTop(0); // Set size and padding
+        randomLevelTable.add(randomButton).size(100, 40).padTop(50); // Set size and padding
         stage.addActor(randomLevelTable); // Add the table to the stage
 
     }

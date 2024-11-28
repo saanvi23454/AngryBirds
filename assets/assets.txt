@@ -13,6 +13,7 @@ glassbox.png
 hektorPig.png
 home.jpg
 homeButton.png
+homeButton2.png
 horizontal_wood.png
 img.png
 img2.png
@@ -44,17 +45,22 @@ lostBG2.png
 mainBG.png
 mainBG2.png
 mainBG3.png
+Music/angry_birds_piano.mp3
 music.png
 music_off.png
 nextButton.png
 pause.png
 pauseBG.png
+pauseBG2.png
 pig.png
 play.png
 play1.png
+playButton.png
 quitButton.png
 randomBG.png
+randomBG2.png
 redbird.png
+replayButton.png
 restart.png
 restartButton.png
 saveGameButton.png
@@ -70,5 +76,6 @@ startButton3.png
 toucanetBird.png
 vertical_wood.png
 wonBG.png
+wonBG2.png
 woodBox.png
 yellowBird.png

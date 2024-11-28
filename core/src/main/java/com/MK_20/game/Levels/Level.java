@@ -59,8 +59,7 @@ public class Level {
         if (currentBird != null) {
             Gdx.app.log("Release", "Bird velocity: " + velocity);
             currentBird.body.setType(BodyDef.BodyType.DynamicBody);
-            currentBird.body.setLinearVelocity(velocity.scl(10));
-            currentBird.body.setLinearVelocity(currentBird.body.getLinearVelocity().scl(5));
+            currentBird.body.setLinearVelocity(velocity);
             levelCreator.birds.remove(currentBird);
 //            if (!levelCreator.thrownBirds.isEmpty()) {
 //                levelCreator.thrownBirds.get(0).destroyAfterDelay(10);
@@ -122,5 +121,4 @@ public class Level {
 
         batch.end();
     }
-
 }

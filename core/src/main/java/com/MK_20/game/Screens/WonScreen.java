@@ -33,9 +33,9 @@ public class WonScreen implements Screen {
         viewport = new FitViewport(AngryBirds.WIDTH, AngryBirds.HEIGHT, camera);
         stage = new Stage(viewport);
 
-        background = new Texture("wonBG.png");
-        restartButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("restart.png"))));
-        homeButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("homeButton.png"))));
+        background = new Texture("wonBG2.png");
+        restartButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("replayButton.png"))));
+        homeButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("homeButton2.png"))));
         nextButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("nextButton.png"))));
         restartButton.addListener(new ClickListener() {
             @Override
@@ -88,20 +88,20 @@ public class WonScreen implements Screen {
         Table table = new Table();
         table.setFillParent(true);
         table.add(restartButton).size(90,90);
-        table.right().padRight(200).padBottom(150);
+        table.right().padRight(40).padTop(-220);
         stage.addActor(table);
-
-        Table table2 = new Table();
-        table2.setFillParent(true);
-        table2.add(nextButton).size(90,90);
-        table2.right().padRight(170).padTop(275);
-        stage.addActor(table2);
 
         Table table3 = new Table();
         table3.setFillParent(true);
         table3.add(homeButton).size(90,90);
-        table3.right().padRight(60).padTop(40);
+        table3.right().padRight(40).padTop(30);
         stage.addActor(table3);
+
+        Table table2 = new Table();
+        table2.setFillParent(true);
+        table2.add(nextButton).size(90,90);
+        table2.right().padRight(40).padTop(280);
+        stage.addActor(table2);
     }
 
 

@@ -32,8 +32,8 @@ public class FailedScreen implements Screen {
         stage = new Stage(viewport);
 
         background = new Texture("levelfailed.png");
-        restartButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("restart.png"))));
-        homeButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("homeButton.png"))));
+        restartButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("replayButton.png"))));
+        homeButton = new ImageButton(new TextureRegionDrawable(new TextureRegion(new Texture("homeButton2.png"))));
         restartButton.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

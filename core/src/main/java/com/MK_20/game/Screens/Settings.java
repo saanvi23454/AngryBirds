@@ -49,9 +49,11 @@ public class Settings implements Screen {
                 if (music) {
                     musicState.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(musicOff));
                     music = false;
+                    AngryBirds.backgroundMusic.pause();
                 } else {
                     musicState.getStyle().imageUp = new TextureRegionDrawable(new TextureRegion(musicOn));
                     music = true;
+                    AngryBirds.backgroundMusic.play();
                 }
             }
         });
