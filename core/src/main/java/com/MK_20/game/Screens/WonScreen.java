@@ -18,6 +18,8 @@ import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import static java.lang.Math.min;
+
 public class WonScreen implements Screen {
 
     private AngryBirds game;
@@ -107,6 +109,10 @@ public class WonScreen implements Screen {
 
     @Override
     public void show() {
+        if (game.totalLevels == game.currentLevelIndex){
+            game.totalLevels = min(game.totalLevels + 1, AngryBirds.maxLevels);
+            game.homeScreen = new HomeScreen(game);
+        }
         viewport.apply();
         Gdx.input.setInputProcessor(stage);
     }
