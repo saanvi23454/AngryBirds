@@ -41,6 +41,8 @@ Once upon a time, a peaceful bird kingdom was disrupted by cunning pigs who stol
 - **Special Abilities**: Activate unique bird abilities with the spacebar.  
 - **Save and Load Game**: Progress can be saved and loaded to resume later.
 
+🎥 [Watch the Gameplay Demo](https://drive.google.com/drive/folders/11y6bFF9mrThCSK7nab2Q2G7Gev-P-uID?usp=sharing)
+
 ---
 
 ## ✨ **Key Features**
