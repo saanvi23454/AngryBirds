@@ -67,8 +67,62 @@ Once upon a time, a peaceful bird kingdom was disrupted by cunning pigs who stol
 
 ---
 
-## 📷 **Screenshots**
-*(Include screenshots of gameplay and menu screens here.)*
+## 🧪 **JUnit Testing**
+The project includes the following JUnit tests for quality assurance:
+
+### **SlingTest**
+1. **testSingletonInstance**: Verifies the singleton behavior of the `Slingshot` class.  
+2. **testStartDrag**: Tests the drag functionality of the slingshot.  
+3. **testRelease**: Validates the release mechanism and position reset.  
+4. **testDispose**: Ensures the dispose method executes without errors.
+
+### **BirdTest**
+1. **testInitialization**: Tests the initialization of the `Bird` object.  
+2. **testSpecialFeature**: Verifies the activation and usage of the special feature.  
+3. **testGetHealth**: Validates the default health value.  
+4. **testDestroySelf**: Verifies the destruction behavior.  
+5. **testGetMass**: Checks the mass of the bird body.  
+6. **testGetDensity**: Validates the density of the bird body.
+
+### **BoxTest**
+1. **testInitialization**: Tests the initialization of the `Box` object.  
+2. **testGetHealth**: Validates the default health value.  
+3. **testDestroySelf**: Verifies the destruction behavior.  
+4. **testGetMass**: Checks the mass of the box body.  
+5. **testGetDensity**: Validates the density of the box body.
+
+### **PigTest**
+1. **testInitialization**: Tests the initialization of the `Pig` object.  
+2. **testGetHealth**: Validates the default health value.  
+3. **testDestroySelf**: Verifies the destruction behavior.  
+4. **testGetMass**: Checks the mass of the pig body.  
+5. **testGetDensity**: Validates the density of the pig body.
+
+To run the JUnit tests:
+1. Navigate to the `test/java` directory.  
+2. Run the test files individually using your IDE or a testing framework.
+
+---
+
+## 📐 **Design Patterns**
+### **1. Singleton Pattern**
+- **Class Involved**: `Slingshot`  
+- **Description**: Ensures only one instance of the `Slingshot` class exists throughout the game, providing a single point of interaction for the slingshot mechanism.  
+- **Benefits**:  
+  - Ensures global access to the slingshot instance.  
+  - Prevents resource wastage by creating a single instance.  
+
+### **2. Factory Method Pattern**
+- **Classes Involved**: `Pig`, `Box`, `Bird`  
+- **Description**: Used to create game entities flexibly without specifying their exact class. Enables easy extension for new entity types.  
+- **Benefits**:  
+  - Promotes clean and maintainable code by decoupling object creation from the main logic.  
+  - Simplifies extending the system for new entity types (e.g., special pigs or birds).  
+
+---
+
+## 💾 **Serialization**
+The game supports saving the state of the current level. This feature allows you to save progress, including game attributes, when you pause and quit in the middle of a level. Upon returning to the game, you will be given the option to restore the saved state. Note that only one level's state can be saved at a time.
 
 ---
 
@@ -88,4 +142,3 @@ Once upon a time, a peaceful bird kingdom was disrupted by cunning pigs who stol
 ---
 
 Help the birds reclaim their kingdom! 🐦🎯
-"""
