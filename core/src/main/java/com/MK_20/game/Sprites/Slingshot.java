@@ -60,7 +60,10 @@ public class Slingshot{
     public Vector2 launchVelocity() {
         Vector2 direction = startPosition.cpy().sub(dragPosition);
         direction.y= -direction.y;
-        //direction.y *= (1.5f);
+
+        if (direction.x > 60f){ direction.x = 60f; }
+        if (direction.y > 40f){ direction.y = 40f; }
+        
         return direction.scl(2f);
     }
 
@@ -75,7 +78,7 @@ public class Slingshot{
         shapeRenderer.setProjectionMatrix(camera.combined);
         shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
 
-        for (float t = 0; t < 5f; t += 0.2f) {
+        for (float t = 0; t < 3f; t += 0.2f) {
             float x = startX + (velocity.x * t);
             float y = startY + (velocity.y * t) + (0.5f * -9.8f * t * t);
 
