@@ -61,7 +61,7 @@ public class Slingshot{
         Vector2 direction = startPosition.cpy().sub(dragPosition);
         direction.y= -direction.y;
         //direction.y *= (1.5f);
-        return direction.scl(1f);
+        return direction.scl(2f);
     }
 
     public void renderTrajectory(Camera camera, Bird currentBird) {
