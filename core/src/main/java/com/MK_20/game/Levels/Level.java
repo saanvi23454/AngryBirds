@@ -40,15 +40,7 @@ public class Level {
         for (int i=0; i<levelCreator.pigs.size(); i++){
             levelCreator.pigs.get(i).update();
         }
-//        if (levelCreator.pigs.isEmpty()){
-//            Timer.schedule(new Timer.Task() {
-//                @Override
-//                public void run() {
-//                    // change to win screen after 4 sec
-//                    AngryBirds.game.setScreen(AngryBirds.game.won);
-//                }
-//            }, 2.0f);
-//        }
+
         if (notYetEnded && (levelCreator.birds.isEmpty() || levelCreator.pigs.isEmpty()) ) {
             levelCreator.playScreen.endLevelButton();
             notYetEnded = false;
@@ -68,7 +60,7 @@ public class Level {
             thrownBird=currentBird;
             currentBird = null; //modify to make it the next bird
             if (!levelCreator.birds.isEmpty()) {
-                setBird(slingshot);
+                setBirdAfterDelay(slingshot);
             }
         }
     }
@@ -78,6 +70,15 @@ public class Level {
             return;
         }
         thrownBird.specialFeature();
+    }
+
+    public void setBirdAfterDelay(Slingshot slingshot){
+        Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                setBird(slingshot);
+            }
+        }, 1.5f);
     }
 
     public void setBird(Slingshot slingshot){
