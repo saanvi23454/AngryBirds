@@ -161,6 +161,7 @@ public class Slingshot{
     private Slingshot() {
         top = new Vector2(100,200);
         dragPosition = new Vector2(top);
+        startPosition = new Vector2(top);
         dragging = false;
     }
     public static Slingshot getInstance(){
