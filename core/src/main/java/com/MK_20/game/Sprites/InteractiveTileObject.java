@@ -29,7 +29,7 @@ public abstract class InteractiveTileObject implements Json.Serializable {
     public int type;
 
     public float health;
-    public float x,y,width,height;
+    public float x,y,width,height,angle;
 
     public InteractiveTileObject() {}
 
@@ -142,6 +142,7 @@ public abstract class InteractiveTileObject implements Json.Serializable {
         json.writeValue("isTotallyDestroyed", isTotallyDestroyed);
         json.writeValue("type",type);
         json.writeValue("health",health);
+        json.writeValue("angle",body.getAngle());
     }
 
     @Override
@@ -156,6 +157,7 @@ public abstract class InteractiveTileObject implements Json.Serializable {
             isTotallyDestroyed = json.readValue("isTotallyDestroyed", boolean.class, jsonData);
             type = json.readValue("type", Integer.class, jsonData);
             health = json.readValue("health", Float.class, jsonData);
+            angle = json.readValue("angle", Float.class, jsonData);
         }
         catch (Exception e) {
             System.out.println("Error deserializing bird: " + e.getMessage());

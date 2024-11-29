@@ -50,6 +50,7 @@ public class Box extends InteractiveTileObject{
         b.health=bi.health;
         b.isDestroyed=bi.isDestroyed;
         b.isTotallyDestroyed=bi.isTotallyDestroyed;
+        b.body.setTransform(b.body.getPosition(),bi.angle);
     }
 
     public static Box createBox(World world, TiledMap map, Rectangle bounds, LevelCreator levelCreator, Box bo) {

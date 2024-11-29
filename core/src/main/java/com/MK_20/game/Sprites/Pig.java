@@ -59,6 +59,7 @@ public class Pig extends InteractiveTileObject {
        b.health=bi.health;
        b.isDestroyed=bi.isDestroyed;
        b.isTotallyDestroyed=bi.isTotallyDestroyed;
+       b.body.setTransform(b.body.getPosition(),bi.angle);
    }
 
     public static Pig createPig(World world, TiledMap map, Ellipse bounds, LevelCreator levelCreator, Pig pi) {

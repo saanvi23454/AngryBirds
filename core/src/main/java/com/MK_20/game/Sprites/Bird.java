@@ -72,6 +72,7 @@ public abstract class Bird extends InteractiveTileObject{
         b.health=bi.health;
         b.isDestroyed=bi.isDestroyed;
         b.isTotallyDestroyed=bi.isTotallyDestroyed;
+        b.body.setTransform(b.body.getPosition(),bi.angle);
     }
 
     public static Bird createBird(World world, TiledMap map, Ellipse ellipse,LevelCreator levelCreator, Bird bi) {
